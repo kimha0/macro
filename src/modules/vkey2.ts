@@ -48,5 +48,5 @@ export async function mouseMove(x: number, y: number, mouseSpeed = 2000) {
   mouse.config.mouseSpeed = randomMouseSpeed;
   await mouse.move(straightTo(new Point(x, y)));
 
-  await sleep(Math.floor(Math.random() * 600) + 200);
+  await sleep(Math.floor(Math.random() * 1000) + 200);
 }

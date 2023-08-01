@@ -1,7 +1,8 @@
 import ffi from "ffi-napi";
 import ref from "ref-napi";
 import Struct from "ref-struct-napi";
-import sleep from "sleep";
+import { mouse, sleep } from "@nut-tree/nut-js";
+
 
 const int = ref.types.int;
 const long = ref.types.long;
@@ -174,9 +175,9 @@ export function press(key: string, n: number, down_time = 50, up_time = 100) {
   for (let i = 0; i < n; i++) {
     console.log(down_time * (800 + 400 * Math.random()));
     keyDown(key);
-    sleep.msleep(Math.floor(down_time * (8 + 4 * Math.random())));
+    sleep(Math.floor(down_time * (8 + 4 * Math.random())));
     keyUp(key);
-    sleep.msleep(Math.floor(up_time * (8 + 4 * Math.random())));
+    sleep(Math.floor(up_time * (8 + 4 * Math.random())));
   }
 }
 
@@ -192,23 +193,30 @@ const MOUSEEVENTF_LEFTUP = 0x0004;
 const MOUSEEVENTF_RIGHTDOWN = 0x0008;
 const MOUSEEVENTF_RIGHTUP = 0x0010;
 
-export function click(position: Position, button: Button = "left") {
-  if (button !== "left" && button !== "right") {
-    console.log(`'${button}' is not a valid mouse button.`);
+export function click(position: Position, distance: Button = "left") {
+  if (distance !== "left" && distance !== "right") {
+    console.log(`'${distance}' is not a valid mouse button.`);
 
     return;
   }
 
-  return new Promise((resolve) => {
-    if (button === "left") {
-      user32.mouse_event(MOUSEEVENTF_LEFTDOWN, position.x, position.y, 0, 0);
-      user32.mouse_event(MOUSEEVENTF_LEFTUP, position.x, position.y, 0, 0);
+  return new Promise(async (resolve) => {
+    if (distance === 'left') {
+      await mouse.leftClick();
     }
+
+    if (distance === 'right') {
+      await mouse.rightClick();
+    }
+    // if (button === "left") {
+    //   user32.mouse_event(MOUSEEVENTF_LEFTDOWN, position.x, position.y, 0, 0);
+    //   user32.mouse_event(MOUSEEVENTF_LEFTUP, position.x, position.y, 0, 0);
+    // }
   
-    if (button === "right") {
-      user32.mouse_event(MOUSEEVENTF_RIGHTDOWN, position.x, position.y, 0, 0);
-      user32.mouse_event(MOUSEEVENTF_RIGHTUP, position.x, position.y, 0, 0);
-    }
+    // if (button === "right") {
+    //   user32.mouse_event(MOUSEEVENTF_RIGHTDOWN, position.x, position.y, 0, 0);
+    //   user32.mouse_event(MOUSEEVENTF_RIGHTUP, position.x, position.y, 0, 0);
+    // }
 
     resolve(null);
   })

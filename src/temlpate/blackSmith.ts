@@ -8,6 +8,8 @@ import { resetMouse } from "../modules/resetMouse";
 import { hasImage } from "../modules/hasImage";
 import { moveClick } from "../modules/moveClick";
 import { logger } from "../modules/logger";
+import { getClickDelay } from "../modules/delay";
+
 
 const 블랙스미스_키 = Key.Num4;
 const 블랙스미스_클릭횟수 = 6;
@@ -58,9 +60,12 @@ async function 블스_만들기() {
 
     // 새로운 도면 클릭
     await moveClick("./src/assets/blackSmith/drawing-item.png");
+    await sleep(1500);
 
     // 비어있는 손에 장착
     await moveClick("./src/assets/blackSmith/empty-right-hand.png");
+
+    await sleep(1500);
 
     await keyboard.pressKey(블랙스미스_키);
     await keyboard.releaseKey(블랙스미스_키);
@@ -83,15 +88,25 @@ async function 블스_만들기() {
     );
 
     // 마감점 멈춘 경우 시작
-    await hasImage("./src/assets/blackSmith/begin-start.png", 16000);
+    const pos = getRandomPosition(rect);
+    await mouseMove(pos.x, pos.y);
 
-    const clickPositions = new Array(블랙스미스_클릭횟수).fill(null).map(() => {
-      return getRandomPosition(rect);
-    });
 
-    for (const pos of clickPositions) {
-      await mouseMove(pos.x, pos.y);
+    while(true) {
+      const 마감점을_찍어야하는가 = await hasImage("./src/assets/blackSmith/begin-start.png", 10000);
+
+      if (마감점을_찍어야하는가) {
+        logger('마감점 클릭');
+        await click(pos, "left");
+        await sleep(getClickDelay());
+
+        continue;
+      }
+
       await click(pos, "left");
+      await sleep(getClickDelay());
+
+      break;
     }
 
     return "마감" as const;

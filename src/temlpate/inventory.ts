@@ -1,5 +1,5 @@
 import { Key, keyboard } from "@nut-tree/nut-js";
-import { msleep } from "sleep";
+import { sleep } from "@nut-tree/nut-js";
 import { hasImage } from "../modules/hasImage";
 
 const 인벤토리_키 = Key.I;
@@ -10,7 +10,7 @@ export async function toggleInventory() {
 
   const sleepMs = Math.floor(800 + (100 * Math.random()));
 
-  await msleep(sleepMs);
+  await sleep(sleepMs);
 }
 
 export async function 아이템창_열기() {
