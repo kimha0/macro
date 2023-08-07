@@ -3,6 +3,8 @@ import {
   straightTo,
   Point,
   sleep,
+  randomPointIn,
+  Region,
 } from "@nut-tree/nut-js";
 import "@nut-tree/template-matcher";
 
@@ -30,12 +32,13 @@ export function getPosition({ left, top, width, height }: Area) {
 }
 
 
-export function getRandomPosition({ left, top, width, height }: Area) {
-  const { x, y } = getRandomizorPosition(width, height)
+export async function getRandomPosition({ left, top, width, height }: Area) {
+  const region = new Region(left, top, width, height);
+  const { x, y } = await randomPointIn(region);
 
   return {
-    x: Math.floor(left + width / 2 + x),
-    y: Math.floor(top + height / 2 + y),
+    x,
+    y,
   };
 }
 
@@ -48,5 +51,5 @@ export async function mouseMove(x: number, y: number, mouseSpeed = 2000) {
   mouse.config.mouseSpeed = randomMouseSpeed;
   await mouse.move(straightTo(new Point(x, y)));
 
-  await sleep(Math.floor(Math.random() * 1000) + 200);
+  await sleep(Math.floor(Math.random() * 800) + 200);
 }

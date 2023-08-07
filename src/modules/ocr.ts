@@ -1,13 +1,37 @@
-import tesseract from 'node-tesseract-ocr';
+import { Screenshots } from "node-screenshots";
+import tesseract from "node-tesseract-ocr"
+import sharp from 'sharp';
 
-type TesseractConfig = Parameters<typeof tesseract.recognize>[1];
+interface CaptureOptions {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+}
 
-export async function findText(text: string, image: tesseract.Input, config: TesseractConfig = { lang: 'kor', oem: 3, psm: 3 }) {
-  try {
-    const result = await tesseract.recognize(image, config)
+const screenshots = Screenshots.fromPoint(0, 0);
 
-    return result;
-  } catch (error) {
-    throw error;
+async function convertToGrayscale(imageBuffer: Buffer) {
+  return await sharp(imageBuffer)
+      .greyscale()
+      .toBuffer();
+}
+
+export async function getText(options: CaptureOptions, psm = 12) {
+  const config = {
+    lang: "kor",
+    oem: 3,
+    psm,
   }
+
+  const buffer = await screenshots!.captureArea(options.left, options.top, options.width, options.height)
+sharp
+  const grayscaleBuffer = await convertToGrayscale(buffer);
+  return tesseract.recognize(grayscaleBuffer, config);
+}
+
+export async function hasText(containString: string, options: CaptureOptions) {
+  const text = await getText(options);
+
+  return text.includes(containString);
 }

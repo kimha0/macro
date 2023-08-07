@@ -9,9 +9,11 @@
     "@nut-tree/template-matcher": "^2.0.0",
     "@types/sleep": "^0.0.9",
     "ffi-napi": "^4.0.3",
+    "node-screenshots": "^0.1.6",
     "node-tesseract-ocr": "^2.2.1",
     "ref-napi": "^3.0.3",
     "ref-struct-napi": "^1.1.1",
+    "sharp": "^0.32.4",
     "sleep": "^6.3.0"
   },
   "scripts": {

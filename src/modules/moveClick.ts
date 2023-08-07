@@ -1,4 +1,4 @@
-import { screen, loadImage } from "@nut-tree/nut-js";
+import { screen, Region, mouse, randomPointIn } from "@nut-tree/nut-js";
 import "@nut-tree/template-matcher";
 import { click } from "../modules/vkey";
 import {
@@ -6,12 +6,25 @@ import {
   mouseMove,
 } from "../modules/vkey2";
 import { logger } from "./logger";
+import { loadImage } from "./loadImage";
 
-export async function moveClick(src: string, distance: "left" | "right" = "left") {
+type Positon = { x: number; y: number };
+
+type SrcType = string | Promise<Region> | Region;
+
+async function getImage(src: SrcType) {
+  if (typeof src === 'string') {
+    return screen.waitFor(loadImage(src), 5000, 100);
+  }
+
+  return await src;
+}
+
+export async function moveClick(src: SrcType, distance: "left" | "right" = "left", pos?: (image: Region) => Positon) {
   try {
-    const image = await screen.waitFor(loadImage(src));
-    const position = getRandomPosition(image);
-  
+    const image = await getImage(src);
+    const position = pos?.(image) ?? await randomPointIn(image);
+
     await mouseMove(position.x, position.y);
     await click(position, distance);
   } catch (error) {
@@ -20,5 +33,5 @@ export async function moveClick(src: string, distance: "left" | "right" = "left"
 
     throw error;
   }
-  
+
 }

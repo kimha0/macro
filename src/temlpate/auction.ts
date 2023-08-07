@@ -5,9 +5,6 @@ import { hasImage } from "../modules/hasImage";
 import { moveClick } from "../modules/moveClick";
 import { logger } from "../modules/logger";
 
-const 블랙스미스_키 = Key.Num4;
-const 블랙스미스_클릭횟수 = 6;
-
 async function 경매장_열기() {
   logger("경매장을 열음");
   await moveClick("./src/assets/auction/open-action.png");
@@ -58,15 +55,15 @@ async function 대금_수령_정리() {
       continue;
     }
 
-    const 다음_버튼이_존재하는가 = await hasImage(
-      "./src/assets/auction/다음버튼.png"
-    );
-    if (다음_버튼이_존재하는가) {
-      logger("다음버튼 선택");
-      await moveClick("./src/assets/auction/다음버튼.png");
+    // const 다음_버튼이_존재하는가 = await hasImage(
+    //   "./src/assets/auction/다음버튼.png"
+    // );
+    // if (다음_버튼이_존재하는가) {
+    //   logger("다음버튼 선택");
+    //   await moveClick("./src/assets/auction/다음버튼.png", 'left', ({ top, left }) => ({ x: top + 5, y: left + 5 }));
 
-      continue;
-    }
+    //   continue;
+    // }
 
     break;
   }
@@ -87,14 +84,21 @@ async function 첫등록시_전처리() {
   await mouse.leftClick();
 }
 
-async function 아이템_등록하기(isFirstRegister = true) {
+async function 아이템_등록하기(isFirstRegister = true, listType: List) {
   logger("아이템 등록을 시작합니다.");
 
   await moveClick("./src/assets/auction/register-item.png");
   await sleep(500);
 
   await keyboard.pressKey(Key.LeftAlt);
-  await moveClick("./src/assets/auction/iron-bar.png");
+
+  if (listType === '철봉') {
+    await moveClick("./src/assets/auction/iron-bar.png");
+  }
+
+  if (listType === '마포50') {
+    await moveClick("./src/assets/auction/마포50.png");
+  }
 
   if (isFirstRegister) {
     await 첫등록시_전처리();
@@ -121,7 +125,7 @@ async function 아이템_등록하기(isFirstRegister = true) {
   }
 }
 
-async function 아이템_여러개_등록하기() {
+async function 아이템_여러개_등록하기(listType: List) {
   let 첫등록인가 = true;
   let 등록개수 = 0;
 
@@ -134,13 +138,17 @@ async function 아이템_여러개_등록하기() {
       break;
     }
 
-    const 철봉_여부 = await hasImage("./src/assets/auction/iron-bar.png");
+    if (listType === '철봉') {
+      const 철봉_여부 = await hasImage("./src/assets/auction/iron-bar.png");
 
-    if (!철봉_여부) {
-      break;
+      if (!철봉_여부) {
+        break;
+      }
     }
 
-    await 아이템_등록하기(첫등록인가);
+
+
+    await 아이템_등록하기(첫등록인가, listType);
     등록개수 += 1;
     첫등록인가 = false;
   }
@@ -169,26 +177,49 @@ async function 경매장닫기() {
   }
 }
 
-async function 철봉_리스트_선택() {
-  const 철봉_선택안됨 = await hasImage(
-    "./src/assets/auction/철봉_아이템리스트.png"
-  );
+type List = '철봉' | '마포50'
+async function 리스트_선택(listType: List) {
 
-  logger(`철봉 선택여부: ${!철봉_선택안됨}`);
+  switch (listType) {
+    case '철봉': {
+      const 철봉_선택안됨 = await hasImage(
+        "./src/assets/auction/철봉_아이템리스트.png"
+      );
 
-  if (철봉_선택안됨) {
-    await moveClick("./src/assets/auction/철봉_아이템리스트.png");
-    logger(`철봉 선택`);
+      logger(`철봉 선택여부: ${!철봉_선택안됨}`);
+
+      if (철봉_선택안됨) {
+        await moveClick("./src/assets/auction/철봉_아이템리스트.png");
+        logger(`철봉 선택`);
+      }
+
+      break;
+    }
+
+    case '마포50': {
+      const 마포_50_선택안됨 = await hasImage(
+        "./src/assets/auction/마포50리스트.png"
+      );
+
+      logger(`마포 선택여부: ${!마포_50_선택안됨}`);
+
+      if (마포_50_선택안됨) {
+        await moveClick("./src/assets/auction/마포50리스트.png");
+        logger(`마포 선택`);
+      }
+
+      break;
+    }
   }
 }
 
-export async function 경매장() {
+export async function 경매장(listType: List) {
   await 아이템창_열기();
-  await 철봉_리스트_선택();
+  await 리스트_선택(listType);
   await 경매장_열기();
   await 내_경매_클릭();
   await 대금_수령_정리();
-  await 아이템_여러개_등록하기();
+  await 아이템_여러개_등록하기(listType);
   await 경매장닫기();
 
   sleep(2000);

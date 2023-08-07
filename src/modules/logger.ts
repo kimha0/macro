@@ -1,3 +1,3 @@
 export function logger(message: string) {
-  console.log(message);
+  console.log(`** Message: ${message}`.padEnd(40) + ` **`);
 }
