@@ -82,81 +82,28 @@ async function main() {
   process.release();
   process.time();
   screen.config.highlightDurationMs = 3000;
-  // keyboard.config.autoDelayMs = 800;
   mouse.config.autoDelayMs = 200;
 
+  const trailoring = new Tailoring(Key.Num2, 350, { isPerfectFinish: false, usesLeftCount: 3 });
+  const dissolution = new Dissolution(Key.Num6, 350);
+  const asyncTask = new AsyncTask();
 
-  try {
-    // await 메이플_아이템창_열기();
-    // await 메이플_아이템창_탭_이동('장비');
-    // // await 메이플_아이템창_좌표_얻기();
-    // const maps = await 메이플_아이템_좌표얻기();
+  trailoring.createCount = 39;
 
-    // const activeWindow = await getActiveWindow();
-    // const windowRegion = await activeWindow.region;
-
-    // for await (const y of maps) {
-    //   for await (const x of y) {
-    //     if (x != null) {
-    //       await mouse.move(straightTo(randomPointIn(x)));
-
-    //       await screen.highlight(new Region(x.left, windowRegion.top + 32, 280, 768));
-    //       const txt = await getText({ x: x.left, y: windowRegion.top + 32, height: 768, width: 280 });
-    //       console.log(txt);
-
-    //       break;
-    //     }
-    //   }
-    // }
-    // await 물(1108);
-    // await 뗏목();
-    // await 합성_매크로(20, '은괴');
-    // await 합성_매크로(50, '금괴');
-    // await 합성_매크로(50, '미스릴괴');
-    // await 블스_매크로(false, 10);
-
-    // while (true) {
-    //   await 경매장('철봉');
-    //   await sleep(120000)
-
-    //   // await AuctionV2();
-    // }
-
-    const trailoring = new Tailoring(Key.Num2, 350, { isPerfectFinish: false, usesLeftCount: 3 });
-    const dissolution = new Dissolution(Key.Num6, 350);
-    const asyncTask = new AsyncTask();
-
-    trailoring.createCount = 39;
-
-    await asyncTask
-      .build(() => trailoring.update(), 50)
-      .build(() => dissolution.update(), 50)
-      .build(() => sleep(2000))
-      .build(() => additionalEqualSlotSingleton.change('일반'))
-      .build(() => logger(`${trailoring.createCount}번 만들고 분해함`))
-      .setInfinityLoop()
-      .run();
-
-    // await Snapshot.highlight(`./src/assets/repair/all-repair.png`);
-  } catch (error) {
-    console.error(error);
-  } finally {
-
-    // try {
-    //   while (true) {
-    //     await 경매장('철봉');
-    //     await sleep(10000)
-    //   }
-    // } catch (error) {
-    //   console.timeEnd('start')
-
-    //   process.stderr.write("\x07");
-    // }
-
-    process.timeEnd();
-    process.beep();
-  }
-
+  await asyncTask
+    .build(() => trailoring.update(), 50)
+    .build(() => dissolution.update(), 50)
+    .sleep(2000)
+    .build(() => additionalEqualSlotSingleton.change('일반'))
+    .build(() => logger(`${trailoring.createCount}번 만들고 분해함`))
+    .setInfinityLoop()
+    .run()
+    .catch(console.error)
+    .finally(() => {
+      process.timeEnd();
+      process.beep();
+    });
 }
 
 main();
+

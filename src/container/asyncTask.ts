@@ -36,6 +36,14 @@ export class AsyncTask {
     return this;
   }
 
+  public sleep(delay: number) {
+    this.stack.push(async () => {
+      await sleep(delay);
+    });
+
+    return this;
+  }
+
   public setInfinityLoop() {
     this._infinityLoop = true;
 
