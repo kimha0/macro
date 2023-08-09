@@ -1,28 +1,31 @@
-// import { logger } from "../modules/logger";
+import { logger } from "../modules/logger";
+import { GlobalKeyboardListener } from 'node-global-key-listener';
 
-// const keypress = require('keypress');
+class Process {
+  private keyboardEvent = new GlobalKeyboardListener();
+  public pause = false;
 
-// class Process {
-//   public stop = false;
+  public release() {
+    this.keyboardEvent.addListener((e, down) => {
+      if (e.name === 'NUMPAD PLUS' && e.state === 'DOWN') {
+        this.pause = !this.pause;
 
-//   public start() {
-//     keypress(process.stdin);
+        logger(`${this.pause ? "일시 정지함" : "다시 시작함"}`);
+      }
+    });
+  }
 
-//     process.stdin.setRawMode(true);
-//     process.stdin.resume();
+  public beep() {
+    process.stderr.write("\x07");
+  }
 
-//     process.stdin.on('keypress', (ch, key) => {
-//       if (key != null && key.name === '+') {
-//         if (this.stop) {
-//           logger('다시 진행합니다.');
-//         } else {
-//           logger('잠시 진행상황을 정지합니다.');
-//         }
+  public time() {
+    console.time('start');
+  }
 
-//         this.stop = !this.stop;
-//       }
-//     });
-//   }
-// }
+  public timeEnd() {
+    console.timeEnd('start');
+  }
+}
 
-// export const processSingleton = new Process();
+export const processSingleton = new Process();

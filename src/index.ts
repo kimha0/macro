@@ -17,6 +17,8 @@ import { favoriteSingleton } from "./container/favorite";
 import { additionalEqualSlotSingleton } from "./container/additionalEqualSlot";
 import { Dissolution } from "./container/dissolution";
 import { repairSingleton } from "./container/repair";
+import { processSingleton as process } from "./container/process";
+import { AsyncTask } from "./container/asyncTask";
 // import { processSingleton } from "./container/process";
 
 function getRandomNumberInRange(min: number, max: number) {
@@ -76,14 +78,13 @@ async function 합성_매크로(loop = Infinity, type: Parameters<typeof 합성>
 }
 
 async function main() {
-  process.stderr.write("\x07");
-  console.time('start')
+  process.beep();
+  process.release();
+  process.time();
   screen.config.highlightDurationMs = 3000;
   // keyboard.config.autoDelayMs = 800;
   mouse.config.autoDelayMs = 200;
 
-
-  // processSingleton.start();
 
   try {
     // await 메이플_아이템창_열기();
@@ -122,31 +123,19 @@ async function main() {
     // }
 
     const trailoring = new Tailoring(Key.Num2, 350, { isPerfectFinish: false, usesLeftCount: 3 });
-    trailoring.createCount = 39;
     const dissolution = new Dissolution(Key.Num6, 350);
+    const asyncTask = new AsyncTask();
 
-    let loopCount = 0;
-    while(true) {
-      loopCount++;
+    trailoring.createCount = 39;
 
-      console.time(`loop ${loopCount}`);
-
-      while (trailoring.createCount < 50 * loopCount) {
-        await trailoring.update();
-      }
-
-      while (dissolution.count < trailoring.createCount) {
-        await dissolution.update();
-      }
-
-      await sleep(2000);
-      await additionalEqualSlotSingleton.change('일반');
-
-
-      console.timeEnd(`loop ${loopCount}`);
-
-      logger(`${trailoring.createCount}번 만들고 분해함`);
-    }
+    await asyncTask
+      .build(() => trailoring.update(), 50)
+      .build(() => dissolution.update(), 50)
+      .build(() => sleep(2000))
+      .build(() => additionalEqualSlotSingleton.change('일반'))
+      .build(() => logger(`${trailoring.createCount}번 만들고 분해함`))
+      .setInfinityLoop()
+      .run();
 
     // await Snapshot.highlight(`./src/assets/repair/all-repair.png`);
   } catch (error) {
@@ -164,9 +153,8 @@ async function main() {
     //   process.stderr.write("\x07");
     // }
 
-    console.timeEnd('start')
-
-    process.stderr.write("\x07");
+    process.timeEnd();
+    process.beep();
   }
 
 }
