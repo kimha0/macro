@@ -2,12 +2,22 @@ import { 블스_봉만들기 } from "./temlpate/blackSmith";
 import { 경매장 } from "./temlpate/auction";
 import { logger } from "./modules/logger";
 import { 합성 } from "./temlpate/synthesis";
-import { Point, Region, getActiveWindow, getWindows, keyboard, mouse, randomPointIn, screen, sleep, straightTo } from "@nut-tree/nut-js";
+import { Key, Point, Region, getActiveWindow, getWindows, keyboard, mouse, randomPointIn, screen, sleep, straightTo } from "@nut-tree/nut-js";
 import { getText, 메이플_아이템_좌표얻기, 메이플_아이템창_열기, 메이플_아이템창_좌표_얻기, 메이플_아이템창_탭_이동 } from "./temlpate/maple/openInventory";
 import { moveClick } from "./modules/moveClick";
 import { 물 } from "./temlpate/bottle";
 import { 뗏목 } from "./temlpate/raft";
 import { AuctionV2 } from "./temlpate/auction-bar";
+import { getImage } from "./modules/hasImage";
+import { 경매 } from "./constants";
+import { Snapshot } from "./container/snapshot";
+import { Tailoring } from "./container/tailoring";
+import { inventorySingleton } from "./container/inventoryContainer";
+import { favoriteSingleton } from "./container/favorite";
+import { additionalEqualSlotSingleton } from "./container/additionalEqualSlot";
+import { Dissolution } from "./container/dissolution";
+import { repairSingleton } from "./container/repair";
+// import { processSingleton } from "./container/process";
 
 function getRandomNumberInRange(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -72,6 +82,9 @@ async function main() {
   // keyboard.config.autoDelayMs = 800;
   mouse.config.autoDelayMs = 200;
 
+
+  // processSingleton.start();
+
   try {
     // await 메이플_아이템창_열기();
     // await 메이플_아이템창_탭_이동('장비');
@@ -94,24 +107,55 @@ async function main() {
     //     }
     //   }
     // }
-    // await 물(Infinity);
-
+    // await 물(1108);
     // await 뗏목();
     // await 합성_매크로(20, '은괴');
     // await 합성_매크로(50, '금괴');
     // await 합성_매크로(50, '미스릴괴');
     // await 블스_매크로(false, 10);
 
-    while (true) {
-      await AuctionV2();
+    // while (true) {
+    //   await 경매장('철봉');
+    //   await sleep(120000)
+
+    //   // await AuctionV2();
+    // }
+
+    const trailoring = new Tailoring(Key.Num2, 350, { isPerfectFinish: false, usesLeftCount: 3 });
+    trailoring.createCount = 39;
+    const dissolution = new Dissolution(Key.Num6, 350);
+
+    let loopCount = 0;
+    while(true) {
+      loopCount++;
+
+      console.time(`loop ${loopCount}`);
+
+      while (trailoring.createCount < 50 * loopCount) {
+        await trailoring.update();
+      }
+
+      while (dissolution.count < trailoring.createCount) {
+        await dissolution.update();
+      }
+
+      await sleep(2000);
+      await additionalEqualSlotSingleton.change('일반');
+
+
+      console.timeEnd(`loop ${loopCount}`);
+
+      logger(`${trailoring.createCount}번 만들고 분해함`);
     }
+
+    // await Snapshot.highlight(`./src/assets/repair/all-repair.png`);
   } catch (error) {
     console.error(error);
   } finally {
 
     // try {
     //   while (true) {
-        // await 경매장('철봉');
+    //     await 경매장('철봉');
     //     await sleep(10000)
     //   }
     // } catch (error) {

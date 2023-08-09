@@ -7,6 +7,7 @@
   "dependencies": {
     "@nut-tree/nut-js": "^3.1.2",
     "@nut-tree/template-matcher": "^2.0.0",
+    "@types/keypress": "^2.0.30",
     "@types/sleep": "^0.0.9",
     "ffi-napi": "^4.0.3",
     "node-screenshots": "^0.1.6",
@@ -25,5 +26,15 @@
     "@types/node": "^20.4.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
+  },
+  "iohook": {
+    "targets": [
+      {
+        "target": "node",
+        "abi": "72",
+        "platform": "darwin",
+        "arch": "x64"
+      }
+    ]
   }
 }
