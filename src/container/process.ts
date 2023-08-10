@@ -26,6 +26,10 @@ class Process {
   public timeEnd() {
     console.timeEnd('start');
   }
+
+  public exit() {
+    process.exit(1);
+  }
 }
 
 export const processSingleton = new Process();

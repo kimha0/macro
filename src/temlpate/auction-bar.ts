@@ -94,12 +94,14 @@ function parseCountText(text: string) {
 }
 
 type Price = { count: number, price: number };
+
+const config = { psm: 7, lang: 'kor' };
 async function getPriceList() {
   const priceList: { count: string; price: string }[] = [];
 
   for (let index = 0; index < 10; index++) {
     const { count, price } = getMinimumPriceRegion(index);
-    const [countText, priceText] = await Promise.all([getText(count, 7), getText(price, 7)]);
+    const [countText, priceText] = await Promise.all([getText(count, config), getText(price, config)]);
 
     priceList.push({ count: countText, price: priceText });
   }
@@ -270,7 +272,7 @@ async function collectPayment(auctionItem: AuctionItems[0], currnetPage: number)
 
     const textRegion = new Region(823, region.top, 120, 25);
 
-    const txt = await getText(textRegion, 7);
+    const txt = await getText(textRegion, config);
 
 
     if (txt.includes(auctionItem.name)) {
@@ -314,7 +316,7 @@ async function collectPayments(auctionItems: AuctionItems) {
 
     const textRegion = new Region(823, region.top, 120, 25);
 
-    const txt = await getText(textRegion, 7);
+    const txt = await getText(textRegion, config);
 
     auctionItems.forEach(x => {
       if (txt.includes(x.name)) {
@@ -339,7 +341,7 @@ async function findCollectItemRegion(name: string) {
     .map((_, index) => {
       const textRegion = new Region(823, 경매.경매현황_화면.top + (index * 46) + 8, 120, 25);
       return new Promise<{ text: string, region: Region }>((resolve) => {
-        getText(textRegion, 7)
+        getText(textRegion, config)
           .then(text => {
             resolve({
               text: text.includes('23') ? '금봉' : text,

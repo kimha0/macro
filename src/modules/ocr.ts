@@ -17,17 +17,23 @@ async function convertToGrayscale(imageBuffer: Buffer) {
       .toBuffer();
 }
 
-export async function getText(options: CaptureOptions, psm = 12) {
-  const config = {
-    lang: "kor",
-    oem: 3,
-    psm,
-  }
 
-  const buffer = await screenshots!.captureArea(options.left, options.top, options.width, options.height)
-sharp
+interface Config {
+  lang: string;
+  psm: number
+}
+
+const config = {
+  lang: "kor",
+  oem: 3,
+  psm: 12,
+}
+
+export async function getText(options: CaptureOptions, _config: Config = config) {
+  
+  const buffer = await screenshots!.captureArea(options.left, options.top, options.width, options.height);
   const grayscaleBuffer = await convertToGrayscale(buffer);
-  return tesseract.recognize(grayscaleBuffer, config);
+  return tesseract.recognize(grayscaleBuffer, _config);
 }
 
 export async function hasText(containString: string, options: CaptureOptions) {
