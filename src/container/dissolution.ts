@@ -12,7 +12,7 @@ export class Dissolution {
   private favorite = favoriteSingleton;
   private additionalEqualSlot = additionalEqualSlotSingleton;
 
-  private finishDelayMs = 4000;
+  private finishDelayMs = 5000;
   private cylinderRegion = new Region(1539, 793, 45, 77);
   private glovePositionRegion = new Region(1544, 234, 31, 31);
   private dissolutionButtonRegion = new Region(266, 733, 84, 34);

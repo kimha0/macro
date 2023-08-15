@@ -1,7 +1,7 @@
 import { Button, Key, Point, Region, keyboard, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
 import { getText } from "../modules/ocr";
 import { getRandomValues } from "../modules/random";
-import { getImage } from "../modules/hasImage";
+import { getImage, hasImage } from "../modules/hasImage";
 import { songOfRichYearSingleton } from "./buff";
 import { inventorySingleton } from "./inventoryContainer";
 import { repairSingleton } from "./repair";
@@ -35,6 +35,9 @@ export class Tailoring {
   private rightHandRegion = new Region(1636, 794, 44, 75);
   private changeMenualPositionRegion = new Region(1544, 234, 28, 28);
 
+  private manualRegion = new Region(278, 316, 69, 93);
+  private cancelRegion = new Region(497, 762, 64, 30);
+
   constructor(public key: Key = Key.Num2, private _sleepMs = 350, public config?: Config) {
     this.usesLeftCount = config?.usesLeftCount ?? 30;
   }
@@ -52,18 +55,26 @@ export class Tailoring {
     await this.openTrailoringView();
     const step = await this.getStep();
 
+    if (step === '버그') {
+      await mouse.move(straightTo(randomPointIn(this.cancelRegion)))
+      await mouse.leftClick();
+
+      await sleep(1000);
+      return;
+    }
+
     if (step === '마감') {
       await this.registerMaterial();
       await this.start();
-      await sleep(this.sleepMs);
+      await sleep(this.sleepMs + 150);
 
       await this.clickStartHit();
       await this.clickEndHit();
-      await sleep(this.sleepMs);
+      await sleep(this.sleepMs + 150);
 
       await this.clickStartHit();
       await this.clickEndHit();
-      await sleep(this.sleepMs);
+      await sleep(this.sleepMs + 150);
 
       await this.clickStartHit();
       await this.clickEndHit();
@@ -203,6 +214,12 @@ export class Tailoring {
   }
 
   private async getStep() {
+    const bugImage = await getImage(`src/assets/trailoring/bug.png`, { searchRegion: this.manualRegion });
+
+    if (bugImage != null) {
+      return '버그';
+    }
+
     const text = await getText(this.stepTextRegion);
 
     if (text.includes('마지막 단계')) {

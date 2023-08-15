@@ -22,11 +22,25 @@ export class AsyncTask {
     })
   }
 
-  public build(fn: Function, loopCount: number = 1) {
+  private getCondition(condition: (() => boolean) | boolean | number, playCount: number) {
+    if (typeof condition === 'number') {
+      return playCount < condition;
+    }
+
+    if (typeof condition === 'boolean') {
+      return condition;
+    }
+
+    if (typeof condition === 'function') {
+      return condition();
+    }
+  }
+
+  public build(fn: Function, condition: (() => boolean) | boolean | number = 1) {
     this.stack.push(async () => {
       let playCount = 0;
 
-      while (playCount < loopCount) {
+      while (this.getCondition(condition, playCount)) {
         playCount++;
         await this.pause();
         await fn();
