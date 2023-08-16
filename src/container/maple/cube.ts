@@ -18,6 +18,10 @@ interface Result {
   마력: number,
 };
 
+type Level = '30~70' | '71~';
+type Weapon = '무기/보장' | '방어구';
+type AttackType = '공격력' | '마력';
+
 export class MapleCube {
   private resourcePath = `src/assets/maple/cube`;
   private currentPosX = 0;
@@ -30,7 +34,7 @@ export class MapleCube {
 
   private inventory = mapleStoryInventorySingleton;
   private needRetrySearch = true;
-  constructor(public key: Key = Key.I, public sleepMs = 350) { }
+  constructor(public options: { level: Level, weapon: Weapon, attackType: AttackType }, public key: Key = Key.I, public sleepMs = 350) { }
 
   private async findItems() {
     await this.inventory.open();
@@ -126,7 +130,29 @@ export class MapleCube {
   }
 
   private async parseOption(searchRegion: Region): Promise<Option | null> {
-    const paths = ['dex3', 'dex6', 'int3', 'int6', 'luk3', 'luk6', 'str3', 'str6', '공격력3', '공격력6', '마력3', '마력6', '올스텟3'];
+    const paths = [];
+
+    if (this.options.level === '30~70') {
+      if (this.options.weapon === '무기/보장') {
+        if (this.options.attackType === '공격력') {
+          paths.push('공격력2', '공격력4');
+        } else {
+          paths.push('마력2', '마력4');
+        }
+      } else {
+        paths.push('dex2', 'dex4', 'int2', 'int4', 'luk2', 'luk4', 'str2', 'str4', '올스텟2');
+      }
+    } else if (this.options.level === '71~') {
+      if (this.options.weapon === '무기/보장') {
+        if (this.options.attackType === '공격력') {
+          paths.push('공격력3', '공격력6');  
+        } else {
+          paths.push('마력3', '마력6');
+        }
+      } else {
+        paths.push('dex3', 'dex6', 'int3', 'int6', 'luk3', 'luk6', 'str3', 'str6', '올스텟3');
+      }
+    }
 
     let option: string | null = null;
 
@@ -259,4 +285,3 @@ export class MapleCube {
 }
 }
 
-export const mapleStoryCubeSingleton = new MapleCube(Key.I, 350);
