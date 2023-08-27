@@ -1,13 +1,22 @@
-import { Button, Key, Point, Region, keyboard, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
-import { getText } from "../modules/ocr";
-import { getRandomValues } from "../modules/random";
-import { getImage, hasImage } from "../modules/hasImage";
-import { songOfRichYearSingleton } from "./buff";
-import { inventorySingleton } from "./inventoryContainer";
-import { repairSingleton } from "./repair";
-import { favoriteSingleton } from "./favorite";
-import { additionalEqualSlotSingleton } from "./additionalEqualSlot";
-import { Snapshot } from "./snapshot";
+import {
+  Button,
+  Key,
+  Point,
+  Region,
+  keyboard,
+  mouse,
+  randomPointIn,
+  sleep,
+  straightTo,
+} from '@nut-tree/nut-js';
+import { getText } from '../modules/ocr';
+import { getRandomValues } from '../modules/random';
+import { getImage } from '../modules/hasImage';
+import { songOfRichYearSingleton } from './buff';
+import { inventorySingleton } from './inventoryContainer';
+import { repairSingleton } from './repair';
+import { favoriteSingleton } from './favorite';
+import { additionalEqualSlotSingleton } from './additionalEqualSlot';
 
 interface Config {
   isPerfectFinish: boolean;
@@ -25,7 +34,6 @@ export class Tailoring {
   private favorite = favoriteSingleton;
   private additionalEqualSlot = additionalEqualSlotSingleton;
 
-
   private finishDelayMs = 5000;
   private stepRegion = new Region(276, 314, 280, 98);
   private stepTextRegion = new Region(356, 314, 110, 12);
@@ -38,7 +46,11 @@ export class Tailoring {
   private manualRegion = new Region(278, 316, 69, 93);
   private cancelRegion = new Region(497, 762, 64, 30);
 
-  constructor(public key: Key = Key.Num2, private _sleepMs = 350, public config?: Config) {
+  constructor(
+    public key: Key = Key.Num2,
+    private _sleepMs = 350,
+    public config?: Config,
+  ) {
     this.usesLeftCount = config?.usesLeftCount ?? 30;
   }
 
@@ -56,7 +68,7 @@ export class Tailoring {
     const step = await this.getStep();
 
     if (step === '버그') {
-      await mouse.move(straightTo(randomPointIn(this.cancelRegion)))
+      await mouse.move(straightTo(randomPointIn(this.cancelRegion)));
       await mouse.leftClick();
 
       await sleep(1000);
@@ -79,7 +91,7 @@ export class Tailoring {
       await this.clickStartHit();
       await this.clickEndHit();
       await sleep(this.sleepMs);
-      
+
       await this.finalHit();
       this.createCount += 1;
     }
@@ -99,12 +111,11 @@ export class Tailoring {
   private async onStart() {
     mouse.config.mouseSpeed = getRandomValues(2500, 3500);
     await this.additionalEqualSlot.change('일반');
-    
+
     if (this.count > 30) {
       await sleep(1000);
       await this.repair.start();
     }
-
   }
 
   private async onFinish() {
@@ -118,7 +129,7 @@ export class Tailoring {
       await this.favorite.active('옷본 - 전문가용 실크방직 장갑');
       await sleep(this.sleepMs);
 
-      const randomPoint = await randomPointIn(this.rightHandRegion)
+      const randomPoint = await randomPointIn(this.rightHandRegion);
 
       await mouse.move(straightTo(randomPoint));
       await sleep(getRandomValues(500, 600));
@@ -126,7 +137,10 @@ export class Tailoring {
 
       await sleep(getRandomValues(500, 600));
 
-      const throwItemButtonRegion = new Point(randomPoint.x, randomPoint.y + 140);
+      const throwItemButtonRegion = new Point(
+        randomPoint.x,
+        randomPoint.y + 140,
+      );
 
       await mouse.move(straightTo(throwItemButtonRegion));
       // NOTE(@kimha0): There is a slight delay when the item window opens.
@@ -135,8 +149,9 @@ export class Tailoring {
       await mouse.leftClick();
       await sleep(getRandomValues(350, 400));
 
-
-      await mouse.move(straightTo(randomPointIn(this.changeMenualPositionRegion)));
+      await mouse.move(
+        straightTo(randomPointIn(this.changeMenualPositionRegion)),
+      );
       await sleep(this.sleepMs);
       await keyboard.pressKey(Key.LeftControl);
       await mouse.leftClick();
@@ -162,17 +177,25 @@ export class Tailoring {
   }
 
   private async clickStartHit() {
-    const region = await getImage('./src/assets/trailoring/start1.png', { searchRegion: this.마감점Region });
+    const region = await getImage('./src/assets/trailoring/start1.png', {
+      searchRegion: this.마감점Region,
+    });
 
     if (region == null) {
-      throw new Error ('start 지점을 찾지 못함');
+      throw new Error('start 지점을 찾지 못함');
     }
-    
-    if (this.config?.isPerfectFinish) {
-      await mouse.move(straightTo(new Point(region.left + 11, region.top + 24)));
-    } else {
 
-      const randomPointRegion = new Region(region.left + 1, region.top + 14, 20, 20);
+    if (this.config?.isPerfectFinish) {
+      await mouse.move(
+        straightTo(new Point(region.left + 11, region.top + 24)),
+      );
+    } else {
+      const randomPointRegion = new Region(
+        region.left + 1,
+        region.top + 14,
+        20,
+        20,
+      );
       await mouse.move(straightTo(randomPointIn(randomPointRegion)));
     }
 
@@ -180,17 +203,23 @@ export class Tailoring {
   }
 
   private async clickEndHit() {
-    const region = await getImage('./src/assets/trailoring/end.png', { searchRegion: this.마감점Region });
+    const region = await getImage('./src/assets/trailoring/end.png', {
+      searchRegion: this.마감점Region,
+    });
 
     if (region == null) {
-      throw new Error ('end 지점을 찾지 못함');
+      throw new Error('end 지점을 찾지 못함');
     }
-    
+
     if (this.config?.isPerfectFinish) {
       await mouse.move(straightTo(new Point(region.left + 8, region.top + 24)));
     } else {
-
-      const randomPointRegion = new Region(region.left - 2, region.top + 14, 20, 20)
+      const randomPointRegion = new Region(
+        region.left - 2,
+        region.top + 14,
+        20,
+        20,
+      );
       await mouse.move(straightTo(randomPointIn(randomPointRegion)));
     }
 
@@ -202,7 +231,9 @@ export class Tailoring {
   }
 
   private async registerMaterial() {
-    await mouse.move(straightTo(randomPointIn(this.autoMaterialRegisterButtonRegion)));
+    await mouse.move(
+      straightTo(randomPointIn(this.autoMaterialRegisterButtonRegion)),
+    );
     await mouse.leftClick();
     await sleep(this.sleepMs);
   }
@@ -214,7 +245,9 @@ export class Tailoring {
   }
 
   private async getStep() {
-    const bugImage = await getImage(`src/assets/trailoring/bug.png`, { searchRegion: this.manualRegion });
+    const bugImage = await getImage(`src/assets/trailoring/bug.png`, {
+      searchRegion: this.manualRegion,
+    });
 
     if (bugImage != null) {
       return '버그';
@@ -228,5 +261,4 @@ export class Tailoring {
 
     return '제작';
   }
-
 }

@@ -1,4 +1,4 @@
-import { logger } from "../modules/logger";
+import { logger } from '../modules/logger';
 import { GlobalKeyboardListener } from 'node-global-key-listener';
 
 class Process {
@@ -10,13 +10,13 @@ class Process {
       if (e.name === 'NUMPAD PLUS' && e.state === 'DOWN') {
         this.pause = !this.pause;
 
-        logger(`${this.pause ? "일시 정지함" : "다시 시작함"}`);
+        logger(`${this.pause ? '일시 정지함' : '다시 시작함'}`);
       }
     });
   }
 
   public beep() {
-    process.stderr.write("\x07");
+    process.stderr.write('\x07');
   }
 
   public time() {

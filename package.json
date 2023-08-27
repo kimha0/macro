@@ -19,12 +19,19 @@
   },
   "scripts": {
     "start": "ts-node src/build.ts",
-    "build": "tsc && pkg ."
+    "build": "tsc && pkg .",
+    "lint": "eslint --fix"
   },
   "devDependencies": {
     "@types/ffi-napi": "^4.0.7",
     "@types/node": "^20.4.5",
     "@types/sleep": "^0.0.9",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
@@ -33,6 +40,11 @@
       "node16-win-x64"
     ],
     "outputPath": "dist",
-    "assets": ["./src/assets/**", "node_modules/sharp/**", "node_modules/opencv4nodejs-prebuilt/**", "node_modules/node-global-key-listener/bin/**/*"]
+    "assets": [
+      "./src/assets/**",
+      "node_modules/sharp/**",
+      "node_modules/opencv4nodejs-prebuilt/**",
+      "node_modules/node-global-key-listener/bin/**/*"
+    ]
   }
 }

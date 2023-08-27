@@ -1,13 +1,18 @@
-import { Key, keyboard, Region } from "@nut-tree/nut-js";
-import { getImage } from "../modules/hasImage";
+import { Key, keyboard, Region } from '@nut-tree/nut-js';
+import { getImage } from '../modules/hasImage';
 
 export class Inventory {
-  constructor(public key: Key, public sleepMs = 350) { }
+  constructor(
+    public key: Key,
+    public sleepMs = 350,
+  ) {}
 
   private inventoryIconRegion = new Region(886, 1007, 57, 57);
 
   public async isOpen() {
-    const region = await getImage(`./src/assets/items/아이템창_열림.png`, { searchRegion: this.inventoryIconRegion });
+    const region = await getImage(`./src/assets/items/아이템창_열림.png`, {
+      searchRegion: this.inventoryIconRegion,
+    });
     return region != null;
   }
 

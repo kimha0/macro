@@ -1,9 +1,17 @@
-import { Key, Region, keyboard, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
-import { getRandomValues } from "../modules/random";
-import { getImage } from "../modules/hasImage";
-import { rainCastingSingleton } from "./buff";
-import { favoriteSingleton } from "./favorite";
-import { additionalEqualSlotSingleton } from "./additionalEqualSlot";
+import {
+  Key,
+  Region,
+  keyboard,
+  mouse,
+  randomPointIn,
+  sleep,
+  straightTo,
+} from '@nut-tree/nut-js';
+import { getRandomValues } from '../modules/random';
+import { getImage } from '../modules/hasImage';
+import { rainCastingSingleton } from './buff';
+import { favoriteSingleton } from './favorite';
+import { additionalEqualSlotSingleton } from './additionalEqualSlot';
 
 export class Dissolution {
   public count = 0;
@@ -17,8 +25,10 @@ export class Dissolution {
   private glovePositionRegion = new Region(1544, 234, 31, 31);
   private dissolutionButtonRegion = new Region(266, 733, 84, 34);
 
-  constructor(public key: Key = Key.Num6, private _sleepMs = 350) {
-  }
+  constructor(
+    public key: Key = Key.Num6,
+    private _sleepMs = 350,
+  ) {}
 
   public get sleepMs() {
     return this._sleepMs + getRandomValues(0, 20);
@@ -33,7 +43,7 @@ export class Dissolution {
     await mouse.move(straightTo(randomPointIn(this.dissolutionButtonRegion)));
     await sleep(this.sleepMs);
     await mouse.leftClick();
-    
+
     this.count += 1;
 
     await sleep(this.finishDelayMs);
@@ -49,7 +59,10 @@ export class Dissolution {
   }
 
   private async changeEmptyHand() {
-    const hasCylinder = await getImage(`./src/assets/dissolution/cylinder.png`, { searchRegion: this.cylinderRegion });
+    const hasCylinder = await getImage(
+      `./src/assets/dissolution/cylinder.png`,
+      { searchRegion: this.cylinderRegion },
+    );
 
     if (hasCylinder != null) {
       await keyboard.pressKey(Key.Grave);
@@ -58,8 +71,7 @@ export class Dissolution {
     }
   }
 
-  private async onFinish() {
-  }
+  private async onFinish() {}
 
   private async useBuff() {
     await this.rainCasting.update();

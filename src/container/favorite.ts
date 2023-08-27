@@ -1,7 +1,12 @@
-import { Key, Region, keyboard, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
-import { getRandomValues } from "../modules/random";
-import { getImage } from "../modules/hasImage";
-import { inventorySingleton } from "./inventoryContainer";
+import {
+  Region,
+  mouse,
+  randomPointIn,
+  sleep,
+  straightTo,
+} from '@nut-tree/nut-js';
+import { getImage } from '../modules/hasImage';
+import { inventorySingleton } from './inventoryContainer';
 
 type ActiveType = '옷본 - 전문가용 실크방직 장갑' | '전문가용 실크방직 장갑';
 
@@ -11,7 +16,7 @@ export class Favorite {
 
   private inventory = inventorySingleton;
 
-  constructor(public sleepMs = 350) { }
+  constructor(public sleepMs = 350) {}
 
   public async active(type: ActiveType, closeInventory = false) {
     await this.inventory.open();
@@ -19,12 +24,15 @@ export class Favorite {
 
     switch (type) {
       case '옷본 - 전문가용 실크방직 장갑': {
-        const region = await getImage(`./src/assets/favorite/manualActive.png`, { searchRegion: this.manualRegion });
+        const region = await getImage(
+          `./src/assets/favorite/manualActive.png`,
+          { searchRegion: this.manualRegion },
+        );
         if (region != null) {
-          return
+          return;
         }
 
-        await mouse.move(straightTo(randomPointIn(this.manualRegion)))
+        await mouse.move(straightTo(randomPointIn(this.manualRegion)));
         await sleep(this.sleepMs);
         await mouse.leftClick();
         await sleep(this.sleepMs);
@@ -32,13 +40,15 @@ export class Favorite {
       }
 
       case '전문가용 실크방직 장갑': {
-        const region = await getImage(`./src/assets/favorite/gloveActive.png`, { searchRegion: this.gloveRegion });
+        const region = await getImage(`./src/assets/favorite/gloveActive.png`, {
+          searchRegion: this.gloveRegion,
+        });
 
         if (region != null) {
-          return
+          return;
         }
 
-        await mouse.move(straightTo(randomPointIn(this.gloveRegion)))
+        await mouse.move(straightTo(randomPointIn(this.gloveRegion)));
         await sleep(this.sleepMs);
         await mouse.leftClick();
         await sleep(this.sleepMs);

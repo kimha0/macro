@@ -1,5 +1,5 @@
-import { sleep } from "@nut-tree/nut-js";
-import { processSingleton } from "./process";
+import { sleep } from '@nut-tree/nut-js';
+import { processSingleton } from './process';
 
 export class AsyncTask {
   private process = processSingleton;
@@ -7,22 +7,25 @@ export class AsyncTask {
   private _infinityLoop = false;
 
   private async pause() {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       while (true) {
         if (this.process.pause) {
           await sleep(500);
 
-          continue
+          continue;
         }
 
         break;
       }
 
       resolve(null);
-    })
+    });
   }
 
-  private getCondition(condition: (() => boolean) | boolean | number, playCount: number) {
+  private getCondition(
+    condition: (() => boolean) | boolean | number,
+    playCount: number,
+  ) {
     if (typeof condition === 'number') {
       return playCount < condition;
     }
@@ -36,7 +39,10 @@ export class AsyncTask {
     }
   }
 
-  public build(fn: Function, condition: (() => boolean) | boolean | number = 1) {
+  public build(
+    fn: Function,
+    condition: (() => boolean) | boolean | number = 1,
+  ) {
     this.stack.push(async () => {
       let playCount = 0;
 
@@ -69,6 +75,6 @@ export class AsyncTask {
       for await (const fn of this.stack) {
         await fn();
       }
-    } while (this._infinityLoop)
+    } while (this._infinityLoop);
   }
 }

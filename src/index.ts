@@ -1,7 +1,7 @@
-import { keyboard, mouse, screen } from "@nut-tree/nut-js";
-import { processSingleton as process } from "./container/process";
-import { AsyncTask } from "./container/asyncTask";
-import { MapleCube } from "./container/maple/cube";
+import { keyboard, mouse, screen } from '@nut-tree/nut-js';
+import { processSingleton as process } from './container/process';
+import { AsyncTask } from './container/asyncTask';
+import { MapleCube } from './container/maple/cube';
 
 async function main() {
   process.beep();
@@ -12,7 +12,11 @@ async function main() {
   mouse.config.mouseSpeed = 3000;
   keyboard.config.autoDelayMs = 50;
 
-  const mapleCube = new MapleCube({ attackType: '공격력', level: '30~70', weapon: '무기/보장' });
+  const mapleCube = new MapleCube({
+    attackType: '공격력',
+    level: '30~70',
+    weapon: '무기/보장',
+  });
   // const mapleCube = new MapleCube({ attackType: '마력', level: '71~', weapon: '방어구' });
   const asyncTask = new AsyncTask();
 
@@ -28,4 +32,3 @@ async function main() {
 }
 
 main();
-

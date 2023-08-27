@@ -1,6 +1,12 @@
-import { Region, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
-import { getRandomValues } from "../modules/random";
-import { getErinTime } from "../modules/getErinTime";
+import {
+  Region,
+  mouse,
+  randomPointIn,
+  sleep,
+  straightTo,
+} from '@nut-tree/nut-js';
+import { getRandomValues } from '../modules/random';
+import { getErinTime } from '../modules/getErinTime';
 
 class Repair {
   public lastRepairDay = getErinTime().days;

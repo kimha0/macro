@@ -1,14 +1,11 @@
-import { Key, Region, keyboard, mouse, randomPointIn, sleep, straightTo } from "@nut-tree/nut-js";
-import { getRandomValues } from "../modules/random";
-import { getImage } from "../modules/hasImage";
-import { inventorySingleton } from "./inventoryContainer";
+import { Key, keyboard, sleep } from '@nut-tree/nut-js';
 
 type ActiveType = '일반' | '분해';
 
 export class AdditionalEqualSlot {
-  public currentEqualSlot : ActiveType | null = null;
+  public currentEqualSlot: ActiveType | null = null;
 
-  constructor(public sleepMs = 350) { }
+  constructor(public sleepMs = 350) {}
 
   public async change(type: ActiveType) {
     if (this.currentEqualSlot == null) {
@@ -17,11 +14,10 @@ export class AdditionalEqualSlot {
 
       this.currentEqualSlot = '일반';
     }
-    
+
     if (type === this.currentEqualSlot) {
       return;
     }
-
 
     switch (type) {
       case '분해': {
