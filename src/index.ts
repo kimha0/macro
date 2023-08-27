@@ -1,10 +1,8 @@
-import { Key, keyboard, mouse, screen } from '@nut-tree/nut-js';
+import { Key, keyboard, mouse, screen, sleep } from '@nut-tree/nut-js';
 import { processSingleton as process } from './container/process';
 import { AsyncTask } from './container/asyncTask';
-import { MapleCube } from './container/maple/cube';
-import { Reactor } from './actions/maplestory/reactor';
 import { Character } from './resource/maplestory/character';
-import { Channel } from './actions/maplestory/channel';
+import { ReactorContainer } from './container/maple/reactor';
 
 async function main() {
   process.beep();
@@ -15,27 +13,23 @@ async function main() {
   mouse.config.mouseSpeed = 3000;
   keyboard.config.autoDelayMs = 50;
 
-  const mapleCube = new MapleCube({
-    attackType: '공격력',
-    level: '30~70',
-    weapon: '무기/보장',
-  });
-  // const mapleCube = new MapleCube({ attackType: '마력', level: '71~', weapon: '방어구' });
   const asyncTask = new AsyncTask();
 
-  const reactor = new Reactor(
+  const reactor = new ReactorContainer(
     new Character('sdfjlkfds', 1, {
       itemInventory: Key.F1,
       jump: Key.D,
       npcAction: Key.PageUp,
       productionSkill: Key.Equal,
     }),
+    '10단계 행운의 물약',
   );
 
-  const channel = new Channel();
-
   await asyncTask
-    .build(() => reactor.goToTheAlchemyPlace(), 1)
+    .build(async () => {
+      await reactor.tick();
+      await sleep(300 * 1000);
+    }, Infinity)
     .run()
     .catch(console.error)
     .finally(() => {

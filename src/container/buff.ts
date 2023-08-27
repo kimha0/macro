@@ -1,19 +1,27 @@
-import { Key, keyboard, sleep } from "@nut-tree/nut-js";
-import { getRandomValues } from "../modules/random";
+import { Key, keyboard, sleep } from '@nut-tree/nut-js';
+import { getRandomValues } from '../modules/random';
 
 class Buff {
   time: Date | null = null;
-  constructor(public key: Key, public seconds: number, public delay: number, public sleepMs = 350) { }
+  constructor(
+    public key: Key,
+    public seconds: number,
+    public delay: number,
+    public sleepMs = 350,
+  ) {}
 
   public async update(force = false) {
     if (
       this.time == null ||
-      Math.round((new Date().getTime() - this.time.getTime()) / 1000) > this.seconds ||
+      Math.round((new Date().getTime() - this.time.getTime()) / 1000) >
+      this.seconds ||
       force
     ) {
       await keyboard.pressKey(this.key);
       await keyboard.releaseKey(this.key);
-      await sleep(this.delay + getRandomValues(this.sleepMs, this.sleepMs + 20));
+      await sleep(
+        this.delay + getRandomValues(this.sleepMs, this.sleepMs + 20),
+      );
 
       this.time = new Date();
 
