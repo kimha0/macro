@@ -16,6 +16,7 @@ export class ReactorContainer {
     if (!this.initialized) {
       await this.action.goToTheAlchemyPlace();
       await this.action.openAlchemy();
+      await this.action.activeAlchemy();
       await this.action.searchRecipe(this.recipeName);
 
       this.initialized = true;
