@@ -1,4 +1,4 @@
-import { Key } from "@nut-tree/nut-js";
+import { Key } from '@nut-tree/nut-js';
 
 interface KeyBinding {
   jump: Key;
@@ -12,5 +12,5 @@ export class Character {
     public name: string,
     public order: number,
     public keybinding: KeyBinding,
-  ) { }
+  ) {}
 }

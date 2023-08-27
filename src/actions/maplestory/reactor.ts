@@ -31,6 +31,9 @@ export class Reactor {
     await keyboard.pressKey(Key.Enter);
     await keyboard.releaseKey(Key.Enter);
 
-    this.character.keybinding.productionSkill;
+    await hasImage(MapleResource.전문기술마을_미니맵, 5000);
+
+    await keyboard.pressKey(Key.Escape);
+    await keyboard.releaseKey(Key.Escape);
   }
 }

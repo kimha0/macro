@@ -1,7 +1,9 @@
-import { keyboard, mouse, screen } from '@nut-tree/nut-js';
+import { Key, keyboard, mouse, screen } from '@nut-tree/nut-js';
 import { processSingleton as process } from './container/process';
 import { AsyncTask } from './container/asyncTask';
 import { MapleCube } from './container/maple/cube';
+import { Reactor } from './actions/maplestory/reactor';
+import { Character } from './resource/maplestory/character';
 
 async function main() {
   process.beep();
@@ -20,8 +22,17 @@ async function main() {
   // const mapleCube = new MapleCube({ attackType: '마력', level: '71~', weapon: '방어구' });
   const asyncTask = new AsyncTask();
 
+  const reactor = new Reactor(
+    new Character('sdfjlkfds', 1, {
+      itemInventory: Key.F1,
+      jump: Key.D,
+      npcAction: Key.PageUp,
+      productionSkill: Key.Equal,
+    }),
+  );
+
   await asyncTask
-    .build(() => mapleCube.release(), 32)
+    .build(() => reactor.goToArdentmill(), 1)
     .run()
     .catch(console.error)
     .finally(() => {
