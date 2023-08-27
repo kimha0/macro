@@ -3,9 +3,17 @@ import { MapleResource } from '../../constants/maplestory';
 import { getImage, hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
+import { Channel } from './channel';
 
 export class Reactor {
-  constructor(public character: Character) {}
+  public channel: Channel;
+
+  constructor(
+    public character: Character,
+    delay = 5000,
+  ) {
+    this.channel = new Channel(delay);
+  }
 
   public async goToArdentmill() {
     const isArdentmill = await hasImage(MapleResource.전문기술마을_미니맵);
@@ -35,5 +43,22 @@ export class Reactor {
 
     await keyboard.pressKey(Key.Escape);
     await keyboard.releaseKey(Key.Escape);
+  }
+
+  public async goToTheAlchemyPlace() {
+    await this.goToArdentmill();
+
+    await this.channel.changeNextChennel();
+
+    await keyboard.pressKey(Key.Down);
+    await keyboard.pressKey(this.character.keybinding.jump);
+
+    await sleep(500);
+    await keyboard.releaseKey(this.character.keybinding.jump);
+    await keyboard.releaseKey(Key.Down);
+
+    await keyboard.pressKey(Key.Left);
+    await sleep(7000);
+    await keyboard.releaseKey(Key.Left);
   }
 }

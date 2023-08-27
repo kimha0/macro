@@ -4,6 +4,7 @@ import { AsyncTask } from './container/asyncTask';
 import { MapleCube } from './container/maple/cube';
 import { Reactor } from './actions/maplestory/reactor';
 import { Character } from './resource/maplestory/character';
+import { Channel } from './actions/maplestory/channel';
 
 async function main() {
   process.beep();
@@ -31,8 +32,10 @@ async function main() {
     }),
   );
 
+  const channel = new Channel();
+
   await asyncTask
-    .build(() => reactor.goToArdentmill(), 1)
+    .build(() => reactor.goToTheAlchemyPlace(), 1)
     .run()
     .catch(console.error)
     .finally(() => {
