@@ -1,18 +1,10 @@
-import {
-  Key,
-  Window,
-  getActiveWindow,
-  getWindows,
-  keyboard,
-  mouse,
-  screen,
-  sleep,
-} from '@nut-tree/nut-js';
+import { keyboard, mouse, screen, sleep } from '@nut-tree/nut-js';
 import { processSingleton as process } from './container/process';
 import { AsyncTask } from './container/asyncTask';
 import { Character } from './resource/maplestory/character';
 import { ReactorContainer } from './container/maple/reactor';
 import { setup } from './modules/setup';
+import { getConfig } from './modules/getConfig';
 
 async function main() {
   process.beep();
@@ -26,16 +18,11 @@ async function main() {
   const asyncTask = new AsyncTask();
 
   await setup();
+  const conf = await getConfig();
 
-  const reactor = new ReactorContainer(
-    new Character('sdfjlkfds', 1, {
-      itemInventory: Key.F1,
-      jump: Key.D,
-      npcAction: Key.Space,
-      productionSkill: Key.Equal,
-    }),
-    '10단계 행운의 물약',
-  );
+  const { keybinding, name, order } = conf.maplestory.charactor[0];
+  const charactor = new Character(name, order, keybinding);
+  const reactor = new ReactorContainer(charactor, '10단계 행운의 물약');
 
   await asyncTask
     .build(async () => {

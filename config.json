@@ -1,0 +1,26 @@
+{
+  "maplestory": {
+    "account": {
+      "useTwoFactor": true,
+      "twoFactor": "123qwe"
+    },
+    "charactor": [
+      {
+        "name": "sdfjlkfds",
+        "order": 1,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        }
+      }
+    ],
+    "alchemy": [
+      { "name": "10단계 행운의 물약", "cooltime": 300, "order": 1 },
+      { "name": "10단계 민첩의 물약", "cooltime": 300, "order": 2 },
+      { "name": "향상된 10단계 행운의 물약", "cooltime": 300, "order": 3 },
+      { "name": "향상된 10단계 민첩의 물약", "cooltime": 300, "order": 4 }
+    ]
+  }
+}
