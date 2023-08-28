@@ -2,19 +2,16 @@ import {
   Button,
   Key,
   Region,
-  clipboard,
   getActiveWindow,
   keyboard,
   mouse,
   randomPointIn,
-  sleep,
   straightTo,
 } from '@nut-tree/nut-js';
 import { MapleResource } from '../../constants/maplestory';
-import { getImage, hasImage } from '../../modules/hasImage';
+import { hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
-import { Snapshot } from '../../container/snapshot';
 import { Account } from '../../resource/maplestory/accounts';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { logger } from '../../modules/logger';
@@ -24,6 +21,10 @@ export class ChangeCharacter {
     public account: Account,
     public character: Character,
   ) {}
+
+  public async waitLoginScreen() {
+    await hasImage(MapleResource.로그인_이전으로, 10000);
+  }
 
   public async clickCharacter() {
     const window = await getActiveWindow();
@@ -37,6 +38,8 @@ export class ChangeCharacter {
 
     await mouse.move(straightTo(randomPointIn(new Region(xPos, yPos, 35, 60))));
     await mouse.doubleClick(Button.LEFT);
+
+    await resetMouseV2(window);
   }
 
   public async checkTwoFactor() {
@@ -84,17 +87,25 @@ export class ChangeCharacter {
       throw new Error('로그인 실패');
     }
 
-    while (true) {
-      const 설정_액티브 = await hasImage(MapleResource.설정_액티브상태, 1000);
+    await this.clearScreen();
+  }
 
-      if (설정_액티브) {
+  public async clearScreen() {
+    return new Promise(async (resolve) => {
+      while (true) {
+        const 설정_액티브 = await hasImage(MapleResource.설정_액티브상태, 1000);
+
+        if (설정_액티브) {
+          await keyboard.pressKey(Key.Escape);
+          await keyboard.releaseKey(Key.Escape);
+          resolve(true);
+
+          break;
+        }
+
         await keyboard.pressKey(Key.Escape);
         await keyboard.releaseKey(Key.Escape);
-        break;
       }
-
-      await keyboard.pressKey(Key.Escape);
-      await keyboard.releaseKey(Key.Escape);
-    }
+    });
   }
 }

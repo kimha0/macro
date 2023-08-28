@@ -10,4 +10,7 @@ export const MapleResource = {
   이차비번_확인버튼: `src/assets/maple/account/confirm.png`,
   캐시샵_버튼: `src/assets/maple/account/cashshop.png`,
   설정_액티브상태: `src/assets/maple/account/active-setting.png`,
+  로그인_이전으로: `src/assets/maple/account/prev.png`,
+  버프포션_리스트버튼: `src/assets/maple/reactor/buff-postion-list.png`,
+  제작완료_확인버튼: `src/assets/maple/reactor/confirm.png`,
 } as const;

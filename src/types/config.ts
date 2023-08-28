@@ -16,6 +16,7 @@ export interface Charactor {
   name: string;
   order: number;
   keybinding: Keybinding;
+  fatigue: number;
   alchemy: Alchemy[];
 }
 
@@ -30,4 +31,5 @@ export interface Alchemy {
   name: string;
   cooltime: number;
   order: number;
+  fatigue: number;
 }

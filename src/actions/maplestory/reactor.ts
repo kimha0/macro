@@ -102,6 +102,18 @@ export class Reactor {
 
     await moveClick(region);
     await sleep(500);
+
+    await keyboard.pressKey(Key.Home);
+    await keyboard.releaseKey(Key.Home);
+
+    await keyboard.pressKey(Key.LeftShift);
+    await keyboard.pressKey(Key.End);
+    await keyboard.releaseKey(Key.End);
+    await keyboard.releaseKey(Key.LeftShift);
+
+    await keyboard.pressKey(Key.Delete);
+    await keyboard.releaseKey(Key.Delete);
+
     await clipboard.setContent(txt);
     await keyboard.pressKey(Key.LeftControl);
     await keyboard.pressKey(Key.V);
@@ -113,6 +125,21 @@ export class Reactor {
 
     await moveClick(recipeButton);
     await mouse.leftClick();
+
+    const listRegion = await getImage(MapleResource.버프포션_리스트버튼);
+    if (listRegion != null) {
+      await moveClick(listRegion);
+    }
+
+    const itemRegion = new Region(
+      recipeButton.left + 50,
+      recipeButton.top + 65,
+      5,
+      5,
+    );
+
+    await moveClick(itemRegion);
+    await sleep(500);
   }
 
   public async create() {
@@ -133,5 +160,13 @@ export class Reactor {
     await keyboard.releaseKey(Key.Enter);
 
     await sleep(4000);
+
+    const region = await getImage(MapleResource.제작완료_확인버튼);
+
+    if (!region) {
+      throw new Error('제작 완료 화면을 찾을 수 없습니다.');
+    }
+
+    await moveClick(region);
   }
 }
