@@ -5,6 +5,8 @@ import { Character } from './resource/maplestory/character';
 import { ReactorContainer } from './container/maple/reactor';
 import { setup } from './modules/setup';
 import { getConfig } from './modules/getConfig';
+import { ChangeCharacter } from './actions/maplestory/changeCharacter';
+import { Account } from './resource/maplestory/accounts';
 
 async function main() {
   process.beep();
@@ -20,22 +22,30 @@ async function main() {
   await setup();
   const conf = await getConfig();
 
-  const { keybinding, name, order } = conf.maplestory.charactor[0];
-  const charactor = new Character(name, order, keybinding);
-  const reactor = new ReactorContainer(charactor, '10단계 행운의 물약');
+  const { keybinding, name, order, alchemy } = conf.maplestory.charactor[0];
+  const charactor = new Character(name, order, keybinding, alchemy);
 
-  await asyncTask
-    .build(async () => {
-      await reactor.tick();
-      await sleep(300 * 1000);
-    }, Infinity)
-    .run()
-    .catch(console.error)
-    .finally(() => {
-      process.timeEnd();
-      process.beep();
-      process.exit();
-    });
+  const { twoFactor, useTwoFactor } = conf.maplestory.account;
+  const account = new Account(useTwoFactor, twoFactor);
+
+  await new ChangeCharacter(account, charactor).clickCharacter();
+  await new ChangeCharacter(account, charactor).checkTwoFactor();
+
+  return;
+  // const reactor = new ReactorContainer(charactor, '10단계 행운의 물약');
+
+  // await asyncTask
+  //   .build(async () => {
+  //     await reactor.tick();
+  //     await sleep(300 * 1000);
+  //   }, Infinity)
+  //   .run()
+  //   .catch(console.error)
+  //   .finally(() => {
+  //     process.timeEnd();
+  //     process.beep();
+  //     process.exit();
+  //   });
 }
 
 main();

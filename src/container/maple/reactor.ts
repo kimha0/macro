@@ -1,26 +1,26 @@
 import { Reactor } from '../../actions/maplestory/reactor';
+import { Account } from '../../resource/maplestory/accounts';
 import { Character } from '../../resource/maplestory/character';
 
 export class ReactorContainer {
-  public action: Reactor;
-  public initialized = false;
+  public actions: Reactor[];
 
   constructor(
-    public character: Character,
+    public account: Account,
+    public characters: Character[],
     public recipeName: string,
   ) {
-    this.action = new Reactor(character);
+    this.actions = characters.map((x) => new Reactor(x));
   }
 
   public async tick() {
-    if (!this.initialized) {
-      await this.action.goToTheAlchemyPlace();
-      await this.action.openAlchemy();
-      await this.action.activeAlchemy();
-      await this.action.searchRecipe(this.recipeName);
+    for await (const action of this.actions) {
+      await action.goToTheAlchemyPlace();
+      await action.openAlchemy();
+      await action.activeAlchemy();
+      await action.searchRecipe(this.recipeName);
 
-      this.initialized = true;
+      await action.create();
     }
-    await this.action.create();
   }
 }

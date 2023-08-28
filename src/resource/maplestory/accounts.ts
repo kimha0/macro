@@ -1,9 +1,6 @@
-import { Character } from './character';
-
-export class Accounts {
+export class Account {
   constructor(
-    public useOTP: boolean,
+    public useTwoFactor: boolean,
     public twoFactorPassword: string,
-    public characters: Character[],
-  ) { }
+  ) {}
 }

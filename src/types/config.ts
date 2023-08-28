@@ -5,7 +5,6 @@ export interface Config {
 export interface Maplestory {
   account: Account;
   charactor: Charactor[];
-  alchemy: Alchemy[];
 }
 
 export interface Account {
@@ -17,6 +16,7 @@ export interface Charactor {
   name: string;
   order: number;
   keybinding: Keybinding;
+  alchemy: Alchemy[];
 }
 
 export interface Keybinding {
