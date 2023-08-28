@@ -4,6 +4,7 @@ import { Reactor } from '../../actions/maplestory/reactor';
 import { Account } from '../../resource/maplestory/accounts';
 import { Character } from '../../resource/maplestory/character';
 import { timeSingleton } from '../../modules/time';
+import { logger } from '../../modules/logger';
 
 export class ReactorContainer {
   public actions: ReactorEvent[];
@@ -25,6 +26,7 @@ export class ReactorContainer {
         this.account,
         action.character,
       );
+
       await changeCharacter.clearScreen();
 
       if (this.needChangeCharacter) {
@@ -106,6 +108,8 @@ class ReactorEvent {
         waitSecond = alchemy.cooltime;
       }
     }
+
+    logger(`제작완료. ${this.character.name} - 피로도 ${this.fatigue}`);
 
     await keyboard.pressKey(Key.Escape);
     await keyboard.releaseKey(Key.Escape);
