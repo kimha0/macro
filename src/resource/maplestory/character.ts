@@ -13,6 +13,7 @@ export class Character {
     public name: string,
     public order: number,
     public keybinding: KeyBinding,
+    public fatigue: number,
     public alchemis: Alchemy[],
   ) {}
 }

@@ -22,8 +22,8 @@ async function main() {
   const conf = await getConfig();
 
   const characters = conf.maplestory.charactor.map(
-    ({ name, order, keybinding, alchemy }) =>
-      new Character(name, order, keybinding, alchemy),
+    ({ name, order, keybinding, fatigue, alchemy }) =>
+      new Character(name, order, keybinding, fatigue, alchemy),
   );
 
   const { twoFactor, useTwoFactor } = conf.maplestory.account;

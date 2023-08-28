@@ -59,6 +59,7 @@ class ReactorEvent {
 
   constructor(public character: Character) {
     this.action = new Reactor(character);
+    this.fatigue = character.fatigue;
   }
 
   public canMakePotion() {
