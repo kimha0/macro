@@ -77,6 +77,10 @@ class ReactorEvent {
     } else if (diffHours > 0) {
       this.fatigue -= diffHours * 20;
       this.date = timeSingleton.getTime();
+
+      if (this.fatigue < 0) {
+        this.fatigue = 0;
+      }
     }
 
     if (this.fatigue >= 200) {
