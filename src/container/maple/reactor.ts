@@ -50,7 +50,10 @@ export class ReactorContainer {
       }
 
       await action.start(this.prevCharacter);
+      this.prevCharacter = action.character;
     }
+
+    logger(`cycle end`);
   }
 }
 
