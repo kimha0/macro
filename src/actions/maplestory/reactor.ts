@@ -168,11 +168,7 @@ export class Reactor {
   }
 
   public async create() {
-    const createButton = await getImage(MapleResource.제작하기_버튼);
-
-    if (createButton == null) {
-      throw new Error('제작하기 버튼을 찾을 수 없습니다.');
-    }
+    const createButton = await this.findCreateButton();
 
     await moveClick(createButton);
 
@@ -193,5 +189,23 @@ export class Reactor {
     }
 
     await moveClick(region);
+  }
+
+  private async findCreateButton() {
+    return new Promise<Region>(async (resolve, reject) => {
+      let i = 0;
+      while (i < 5) {
+        const createButton = await getImage(MapleResource.제작하기_버튼);
+
+        if (createButton != null) {
+          resolve(createButton);
+          break;
+        }
+
+        i++;
+      }
+
+      reject(new Error('제작하기 버튼을 찾을 수 없습니다.'));
+    });
   }
 }
