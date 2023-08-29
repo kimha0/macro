@@ -88,8 +88,6 @@ export class ChangeCharacter {
     if (!접속완료여부) {
       throw new Error('로그인 실패');
     }
-
-    await this.clearScreen();
   }
 
   public async clearScreen() {

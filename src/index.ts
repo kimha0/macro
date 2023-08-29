@@ -6,6 +6,7 @@ import { ReactorContainer } from './container/maple/reactor';
 import { setup } from './modules/setup';
 import { getConfig } from './modules/getConfig';
 import { Account } from './resource/maplestory/accounts';
+import { Reactor } from './actions/maplestory/reactor';
 
 async function main() {
   process.beep();

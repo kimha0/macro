@@ -47,6 +47,8 @@ export class ReactorContainer {
         await changeCharacter.waitLoginScreen();
         await changeCharacter.clickCharacter();
         await changeCharacter.checkTwoFactor();
+        await changeCharacter.clearScreen();
+
 
         logger(`캐릭터 변경: ${changeCharacter.character.name}`)
       }

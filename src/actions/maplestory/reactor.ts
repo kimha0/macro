@@ -13,6 +13,7 @@ import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
 import { Channel } from './channel';
 import { resetMouseV2 } from '../../modules/resetMouse';
+import { Snapshot } from '../../container/snapshot';
 
 export class Reactor {
   public channel: Channel;
@@ -103,7 +104,7 @@ export class Reactor {
     await keyboard.pressKey(this.character.keybinding.productionSkill);
     await keyboard.releaseKey(this.character.keybinding.productionSkill);
   }
-
+  
   public async searchRecipe(txt: string) {
     const recipeButton = await getImage(MapleResource.제작가능_레시피_버튼);
 
@@ -112,9 +113,9 @@ export class Reactor {
     }
 
     const region = new Region(
-      recipeButton.left + 4,
-      recipeButton.top + 20,
-      250,
+      recipeButton.left + 14,
+      recipeButton.top + 22,
+      220,
       8,
     );
 
