@@ -47,12 +47,14 @@ export class ReactorContainer {
         await changeCharacter.waitLoginScreen();
         await changeCharacter.clickCharacter();
         await changeCharacter.checkTwoFactor();
+
+        logger(`캐릭터 변경: ${changeCharacter.character.name}`)
       }
 
       const character = await action.start(this.prevCharacter);
 
       if (character != null) {
-        logger(`change: ${this.prevCharacter.name} -> ${character.name}`);
+        logger(`캐릭터 변경 대상: ${this.prevCharacter.name} -> ${character.name}`);
         this.prevCharacter = character;
       }
     }
@@ -109,25 +111,26 @@ class ReactorEvent {
     await this.action.activeAlchemy();
 
     for await (const alchemy of this.character.alchemis) {
+      if (!this.canMakePotion()) {
+        break;
+      }
+
       await this.action.searchRecipe(alchemy.name);
       await this.action.create();
 
       this.fatigue += alchemy.fatigue;
-
-      if (!this.canMakePotion()) {
-        break;
-      }
+      
+      logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
 
       if (waitSecond < alchemy.cooltime) {
         waitSecond = alchemy.cooltime;
       }
     }
 
-    logger(`제작완료. ${this.character.name} - 피로도 ${this.fatigue}`);
-
     await keyboard.pressKey(Key.Escape);
     await keyboard.releaseKey(Key.Escape);
 
+    logger(`${waitSecond}초 기다림`);
     await sleep(waitSecond * 1000);
 
     return this.character;

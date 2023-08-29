@@ -36,8 +36,9 @@ export class ChangeCharacter {
     const yOrder = Math.floor(this.character.order / 6);
     const yPos = region.top + 315 + yOrder * 220;
 
-    await mouse.move(straightTo(randomPointIn(new Region(xPos, yPos, 35, 60))));
-    await mouse.doubleClick(Button.LEFT);
+    await moveClick(new Region(xPos, yPos, 35, 60));
+    await keyboard.pressKey(Key.Enter);
+    await keyboard.releaseKey(Key.Enter);
 
     await resetMouseV2(window);
   }
@@ -77,7 +78,8 @@ export class ChangeCharacter {
 
     logger('2차 비밀번호 입력 완료');
 
-    await moveClick(MapleResource.이차비번_확인버튼, 'left', undefined, region);
+    await keyboard.pressKey(Key.Enter);
+    await keyboard.releaseKey(Key.Enter);
 
     const 접속완료여부 = await hasImage(MapleResource.캐시샵_버튼, 10000, {
       searchRegion: region,
