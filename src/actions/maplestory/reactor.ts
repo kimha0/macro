@@ -2,6 +2,7 @@ import {
   Key,
   Region,
   clipboard,
+  getActiveWindow,
   keyboard,
   mouse,
   sleep,
@@ -11,6 +12,7 @@ import { getImage, hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
 import { Channel } from './channel';
+import { resetMouseV2 } from '../../modules/resetMouse';
 
 export class Reactor {
   public channel: Channel;
@@ -26,11 +28,11 @@ export class Reactor {
     return new Promise(async (resolve, reject) => {
       let i = 0;
 
-      while(i < 5) {
+      while (i < 5) {
         const isArdentmill = await hasImage(MapleResource.전문기술마을_미니맵);
 
         if (isArdentmill) {
-          resolve(true)
+          resolve(true);
           break;
         }
 
@@ -142,9 +144,16 @@ export class Reactor {
     await moveClick(recipeButton);
     await mouse.leftClick();
 
-    const listRegion = await getImage(MapleResource.버프포션_리스트버튼);
-    if (listRegion != null) {
-      await moveClick(listRegion);
+    const window = await getActiveWindow();
+
+    while (true) {
+      const listRegion = await getImage(MapleResource.버프포션_리스트버튼);
+      if (listRegion != null) {
+        await moveClick(listRegion);
+        await resetMouseV2(window);
+      } else {
+        break;
+      }
     }
 
     const itemRegion = new Region(
