@@ -9,19 +9,21 @@ import { logger } from '../../modules/logger';
 export class ReactorContainer {
   public actions: ReactorEvent[];
   public needChangeCharacter = false;
+  public prevCharacter: Character;
 
   constructor(
     public account: Account,
     public characters: Character[],
   ) {
     this.actions = characters.map((x) => new ReactorEvent(x));
+
+    this.prevCharacter = characters[0];
   }
 
   public async tick() {
-    const prevCharacter = this.actions[0].character;
     for await (const action of this.actions) {
       this.needChangeCharacter =
-        prevCharacter !== action.character && action.canMakePotion();
+        this.prevCharacter !== action.character && action.canMakePotion();
       const changeCharacter = new ChangeCharacter(
         this.account,
         action.character,
@@ -47,7 +49,7 @@ export class ReactorContainer {
         await changeCharacter.checkTwoFactor();
       }
 
-      await action.start(prevCharacter);
+      await action.start(this.prevCharacter);
     }
   }
 }
