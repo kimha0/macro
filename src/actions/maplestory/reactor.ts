@@ -22,12 +22,27 @@ export class Reactor {
     this.channel = new Channel(delay);
   }
 
-  public async goToArdentmill() {
-    const isArdentmill = await hasImage(MapleResource.전문기술마을_미니맵);
+  public async waitArdentmill() {
+    return new Promise(async (resolve, reject) => {
+      let i = 0;
 
-    if (isArdentmill) {
-      return;
-    }
+      while(i < 5) {
+        const isArdentmill = await hasImage(MapleResource.전문기술마을_미니맵);
+
+        if (isArdentmill) {
+          resolve(true)
+          break;
+        }
+
+        ++i;
+      }
+
+      reject(false);
+    });
+  }
+
+  public async goToArdentmill() {
+    await this.waitArdentmill();
 
     await keyboard.pressKey(this.character.keybinding.productionSkill);
     await keyboard.releaseKey(this.character.keybinding.productionSkill);
@@ -56,6 +71,7 @@ export class Reactor {
     await this.goToArdentmill();
 
     await this.channel.changeNextChennel();
+    await this.waitArdentmill();
 
     await keyboard.pressKey(Key.Down);
     await keyboard.pressKey(this.character.keybinding.jump);

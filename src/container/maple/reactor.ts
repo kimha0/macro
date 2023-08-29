@@ -52,6 +52,7 @@ export class ReactorContainer {
       const character = await action.start(this.prevCharacter);
 
       if (character != null) {
+        logger(`character change: ${this.prevCharacter} -> ${character}`)
         this.prevCharacter = character;
       }
     }
