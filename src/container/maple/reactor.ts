@@ -16,14 +16,14 @@ export class ReactorContainer {
     public characters: Character[],
   ) {
     this.actions = characters.map((x) => new ReactorEvent(x));
-
     this.prevCharacter = characters[0];
   }
 
   public async tick() {
     for await (const action of this.actions) {
       this.needChangeCharacter =
-        this.prevCharacter !== action.character && action.canMakePotion();
+        this.prevCharacter.name !== action.character.name &&
+        action.canMakePotion();
       const changeCharacter = new ChangeCharacter(
         this.account,
         action.character,
@@ -52,7 +52,7 @@ export class ReactorContainer {
       const character = await action.start(this.prevCharacter);
 
       if (character != null) {
-        logger(`character change: ${this.prevCharacter} -> ${character}`)
+        logger(`change: ${this.prevCharacter.name} -> ${character.name}`);
         this.prevCharacter = character;
       }
     }
@@ -101,7 +101,7 @@ class ReactorEvent {
 
     let waitSecond = 0;
 
-    if (prevCharacter !== this.character) {
+    if (prevCharacter.name !== this.character.name) {
       await this.action.goToTheAlchemyPlace();
     }
 
@@ -130,6 +130,6 @@ class ReactorEvent {
 
     await sleep(waitSecond * 1000);
 
-    return prevCharacter;
+    return this.character;
   }
 }
