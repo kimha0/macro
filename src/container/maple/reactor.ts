@@ -49,8 +49,11 @@ export class ReactorContainer {
         await changeCharacter.checkTwoFactor();
       }
 
-      await action.start(this.prevCharacter);
-      this.prevCharacter = action.character;
+      const character = await action.start(this.prevCharacter);
+
+      if (character != null) {
+        this.prevCharacter = character;
+      }
     }
 
     logger(`cycle end`);
@@ -92,7 +95,7 @@ class ReactorEvent {
 
   public async start(prevCharacter: Character) {
     if (!this.canMakePotion()) {
-      return;
+      return null;
     }
 
     let waitSecond = 0;
@@ -125,5 +128,7 @@ class ReactorEvent {
     await keyboard.releaseKey(Key.Escape);
 
     await sleep(waitSecond * 1000);
+
+    return prevCharacter;
   }
 }
