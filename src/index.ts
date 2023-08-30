@@ -33,7 +33,7 @@ async function main() {
   const account = new Account(useTwoFactor, twoFactor);
   const reactor = new ReactorContainer(account, characters);
 
-  const computerUsername = os.userInfo().username;
+  const computerUsername = os.userInfo().username.substring(0, 3) + `***`;
   await sendWebhook(`${computerUsername}: start`);
 
   let error: null | Error = null;
