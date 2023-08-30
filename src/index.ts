@@ -1,4 +1,4 @@
-import { keyboard, mouse, screen } from '@nut-tree/nut-js';
+import { keyboard, mouse, screen, sleep } from '@nut-tree/nut-js';
 import { processSingleton as process } from './container/process';
 import { AsyncTask } from './container/asyncTask';
 import { Character } from './resource/maplestory/character';
@@ -43,6 +43,7 @@ async function main() {
     await sendWebhook(`${computerUsername}: ${(error as Error)?.message}`);
   }
 
+  await sleep(5000);
   process.timeEnd();
   process.beep();
   process.exit();
