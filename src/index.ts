@@ -6,7 +6,8 @@ import { ReactorContainer } from './container/maple/reactor';
 import { setup } from './modules/setup';
 import { getConfig } from './modules/getConfig';
 import { Account } from './resource/maplestory/accounts';
-import { Reactor } from './actions/maplestory/reactor';
+import { sendWebhook } from './modules/discord-webhook';
+import os from 'os';
 
 async function main() {
   process.beep();
@@ -35,7 +36,11 @@ async function main() {
   await asyncTask
     .build(() => reactor.tick(), Infinity)
     .run()
-    .catch(console.error)
+    .catch(async (error) => {
+      console.error(error);
+      const computerUsername = os.userInfo().username;
+      await sendWebhook(`${computerUsername}: ${error?.message}`);
+    })
     .finally(() => {
       process.timeEnd();
       process.beep();
