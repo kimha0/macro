@@ -33,12 +33,14 @@ async function main() {
   const account = new Account(useTwoFactor, twoFactor);
   const reactor = new ReactorContainer(account, characters);
 
+  const computerUsername = os.userInfo().username;
+  await sendWebhook(`${computerUsername}: start`);
+
   await asyncTask
     .build(() => reactor.tick(), Infinity)
     .run()
     .catch(async (error) => {
       console.error(error);
-      const computerUsername = os.userInfo().username;
       await sendWebhook(`${computerUsername}: ${error?.message}`);
     })
     .finally(() => {
