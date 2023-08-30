@@ -36,21 +36,16 @@ async function main() {
   const computerUsername = os.userInfo().username.substring(0, 3) + `***`;
   await sendWebhook(`${computerUsername}: start`);
 
-  let error: null | Error = null;
+  try {
+    await asyncTask.build(() => reactor.tick(), Infinity).run();
+  } catch (error) {
+    console.error(error);
+    await sendWebhook(`${computerUsername}: ${(error as Error)?.message}`);
+  }
 
-  await asyncTask
-    .build(() => reactor.tick(), Infinity)
-    .run()
-    .catch(async (err) => {
-      console.error(err);
-      error = err;
-    })
-    .finally(async () => {
-      await sendWebhook(`${computerUsername}: ${error?.message}`);
-      process.timeEnd();
-      process.beep();
-      process.exit();
-    });
+  process.timeEnd();
+  process.beep();
+  process.exit();
 }
 
 main();
