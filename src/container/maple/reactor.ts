@@ -49,14 +49,15 @@ export class ReactorContainer {
         await changeCharacter.checkTwoFactor();
         await changeCharacter.clearScreen();
 
-
-        logger(`캐릭터 변경: ${changeCharacter.character.name}`)
+        logger(`캐릭터 변경: ${changeCharacter.character.name}`);
       }
 
       const character = await action.start(this.prevCharacter);
 
       if (character != null) {
-        logger(`캐릭터 변경 대상: ${this.prevCharacter.name} -> ${character.name}`);
+        logger(
+          `캐릭터 변경 대상: ${this.prevCharacter.name} -> ${character.name}`,
+        );
         this.prevCharacter = character;
       }
     }
@@ -121,7 +122,7 @@ class ReactorEvent {
       await this.action.create();
 
       this.fatigue += alchemy.fatigue;
-      
+
       logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
 
       if (waitSecond < alchemy.cooltime) {
