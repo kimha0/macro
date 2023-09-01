@@ -1,4 +1,4 @@
-import { Key, Region, getActiveWindow, keyboard } from '@nut-tree/nut-js';
+import { Key, Region, getActiveWindow, keyboard, mouse, sleep } from '@nut-tree/nut-js';
 import { MapleResource } from '../../constants/maplestory';
 import { getImage, hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
@@ -17,7 +17,13 @@ export class ChangeCharacter {
   ) {}
 
   public async waitLoginScreen() {
-    await hasImage(MapleResource.로그인_이전으로, 10000);
+    while(true) {
+      const login = await getImage(MapleResource.로그인_이전으로);
+
+      if (login != null) {
+        break;
+      }
+    }
   }
 
   public async clickCharacter() {
@@ -30,7 +36,10 @@ export class ChangeCharacter {
     const yOrder = Math.floor(this.character.order / 6);
     const yPos = region.top + 315 + yOrder * 220;
 
+    await sleep(2000);
     await moveClick(new Region(xPos, yPos, 35, 60));
+
+    await sleep(2000);
     await keyboard.pressKey(Key.Enter);
     await keyboard.releaseKey(Key.Enter);
 
