@@ -1,15 +1,6 @@
-import {
-  Button,
-  Key,
-  Region,
-  getActiveWindow,
-  keyboard,
-  mouse,
-  randomPointIn,
-  straightTo,
-} from '@nut-tree/nut-js';
+import { Key, Region, getActiveWindow, keyboard } from '@nut-tree/nut-js';
 import { MapleResource } from '../../constants/maplestory';
-import { hasImage } from '../../modules/hasImage';
+import { getImage, hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
 import { Account } from '../../resource/maplestory/accounts';
@@ -66,14 +57,24 @@ export class ChangeCharacter {
       throw new Error('2차 비밀번호에 대문자가 들어간 경우 지원하지 않음.');
     }
 
+    const regions: Region[] = [];
+
+    await resetMouseV2(window);
+
     for await (const char of this.account.twoFactorPassword) {
-      await moveClick(
+      const region = await getImage(
         `${MapleResource.비번_이미지_경로}/${char}.png`,
-        'left',
-        undefined,
-        region,
       );
-      await resetMouseV2(window);
+
+      if (region == null) {
+        throw new Error(`2차 비밀번호 버튼을 찾을 수 없습니다. ${char}`);
+      }
+
+      regions.push(region);
+    }
+
+    for await (const region of regions) {
+      await moveClick(region, 'left', undefined, region);
     }
 
     logger('2차 비밀번호 입력 완료');
