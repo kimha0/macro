@@ -13,9 +13,11 @@ import { Character } from '../../resource/maplestory/character';
 import { moveClick } from '../../modules/moveClick';
 import { Channel } from './channel';
 import { resetMouseV2 } from '../../modules/resetMouse';
+import { getConfig } from '../../modules/getConfig';
 
 export class Reactor {
   public channel: Channel;
+  public config = getConfig();
 
   constructor(
     public character: Character,
@@ -45,6 +47,12 @@ export class Reactor {
 
   public async goToArdentmill() {
     await this.waitArdentmill();
+
+    const goToArdentmill = (await this.config).maplestory.goToArdentmill;
+
+    if (!goToArdentmill) {
+      return;
+    }
 
     await keyboard.pressKey(this.character.keybinding.productionSkill);
     await keyboard.releaseKey(this.character.keybinding.productionSkill);

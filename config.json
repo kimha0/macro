@@ -1,6 +1,7 @@
 {
   "maplestory": {
     "channelChange": false,
+    "goToArdentmill": false,
     "account": {
       "useTwoFactor": true,
       "twoFactor": "123qwe"

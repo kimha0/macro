@@ -4,6 +4,7 @@ export interface Config {
 
 export interface Maplestory {
   channelChange: boolean;
+  goToArdentmill: boolean;
   account: Account;
   charactor: Charactor[];
 }
