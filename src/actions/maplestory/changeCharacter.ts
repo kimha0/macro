@@ -6,8 +6,11 @@ import { moveClick } from '../../modules/moveClick';
 import { Account } from '../../resource/maplestory/accounts';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { logger } from '../../modules/logger';
+import { getConfig } from '../../modules/getConfig';
 
 export class ChangeCharacter {
+  public config = getConfig();
+
   constructor(
     public account: Account,
     public character: Character,
@@ -35,7 +38,8 @@ export class ChangeCharacter {
   }
 
   public async checkTwoFactor() {
-    if (!this.account.useTwoFactor) {
+    const useTwoFactor = (await this.config).maplestory.account.useTwoFactor;
+    if (!useTwoFactor) {
       return;
     }
 

@@ -15,7 +15,7 @@ export async function getConfig() {
 
         globalConfig = config;
 
-        resolve(config);
+        resolve(globalConfig!);
       });
 
       return;
