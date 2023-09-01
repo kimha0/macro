@@ -3,6 +3,7 @@ export interface Config {
 }
 
 export interface Maplestory {
+  channelChange: boolean;
   account: Account;
   charactor: Charactor[];
 }

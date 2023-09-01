@@ -1,5 +1,6 @@
 {
   "maplestory": {
+    "channelChange": false,
     "account": {
       "useTwoFactor": true,
       "twoFactor": "123qwe"
