@@ -5,6 +5,7 @@ import { Account } from '../../resource/maplestory/accounts';
 import { Character } from '../../resource/maplestory/character';
 import { timeSingleton } from '../../modules/time';
 import { logger } from '../../modules/logger';
+import { sendFatigueWebhook } from '../../modules/discord-webhook';
 
 export class ReactorContainer {
   public actions: ReactorEvent[];
@@ -123,6 +124,7 @@ class ReactorEvent {
 
       this.fatigue += alchemy.fatigue;
 
+      sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
       logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
 
       if (waitSecond < alchemy.cooltime) {
