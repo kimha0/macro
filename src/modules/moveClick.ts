@@ -4,6 +4,7 @@ import { click } from '../modules/vkey';
 import { mouseMove } from '../modules/vkey2';
 import { logger } from './logger';
 import { loadImage } from './loadImage';
+import { sleep } from 'sleep';
 
 type Positon = { x: number; y: number };
 
@@ -28,6 +29,7 @@ export async function moveClick(
     const position = pos?.(image) ?? (await randomPointIn(image));
 
     await mouseMove(position.x, position.y);
+    await sleep(300);
     await click(position, distance);
   } catch (error) {
     logger(`src: ${src}`);
