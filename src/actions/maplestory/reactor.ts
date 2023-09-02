@@ -124,9 +124,9 @@ export class Reactor {
 
     const region = new Region(
       recipeButton.left + 14,
-      recipeButton.top + 22,
+      recipeButton.top + 25,
       220,
-      8,
+      2,
     );
 
     await moveClick(region);
