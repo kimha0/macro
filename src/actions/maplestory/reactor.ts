@@ -6,7 +6,9 @@ import {
   getActiveWindow,
   keyboard,
   mouse,
+  randomPointIn,
   sleep,
+  straightTo,
 } from '@nut-tree/nut-js';
 import { MapleResource } from '../../constants/maplestory';
 import { getImage, hasImage } from '../../modules/hasImage';
@@ -162,7 +164,9 @@ export class Reactor {
     while (true) {
       const listRegion = await getImage(MapleResource.버프포션_리스트버튼);
       if (listRegion != null) {
-        await moveClick(listRegion);
+        await mouse.move(straightTo(randomPointIn(listRegion)));
+        await sleep(1000);
+        await mouse.leftClick();
         await resetMouseV2(window);
       } else {
         break;
