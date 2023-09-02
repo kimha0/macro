@@ -1,4 +1,5 @@
 import {
+  Button,
   Key,
   Region,
   clipboard,
@@ -130,6 +131,7 @@ export class Reactor {
     );
 
     await moveClick(region);
+    await mouse.doubleClick(Button.LEFT);
     await sleep(1000);
 
     await keyboard.pressKey(Key.Home);
@@ -175,7 +177,7 @@ export class Reactor {
     );
 
     await moveClick(itemRegion);
-    await sleep(500);
+    await sleep(1000);
   }
 
   public async create() {
