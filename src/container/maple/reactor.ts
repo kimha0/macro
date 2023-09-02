@@ -116,19 +116,8 @@ class ReactorEvent {
         break;
       }
 
-      let i = 0;
-
-      while (i < 5) {
-        try {
-          await this.action.searchRecipe(alchemy.name);
-          await this.action.create();
-          break;
-        } catch {
-          i++;
-        }
-
-        throw new Error('해당 레시피를 만들 수 없습니다.');
-      }
+      await this.action.searchRecipe(alchemy.name);
+      await this.action.create();
 
       this.fatigue += alchemy.fatigue;
 
