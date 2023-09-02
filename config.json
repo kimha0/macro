@@ -3,13 +3,125 @@
     "channelChange": false,
     "goToArdentmill": false,
     "account": {
-      "useTwoFactor": true,
+      "useTwoFactor": false,
       "twoFactor": "123qwe"
     },
     "charactor": [
       {
-        "name": "sdfjlkfds",
+        "name": "F1",
         "order": 0,
+        "fatigue": 170,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "10단계 행운의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F2",
+        "order": 1,
+        "fatigue": 40,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "향상된 10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "향상된 10단계 행운의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F3",
+        "order": 2,
+        "fatigue": 10,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "향상된 10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "향상된 10단계 행운의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F4",
+        "order": 3,
+        "fatigue": 10,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "10단계 행운의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "향상된 10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          },
+          {
+            "name": "향상된 10단계 행운의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F5",
+        "order": 4,
         "fatigue": 0,
         "keybinding": {
           "itemInventory": 11,
@@ -19,15 +131,72 @@
         },
         "alchemy": [
           {
-            "name": "10단계 행운의 물약",
+            "name": "10단계 민첩의 물약",
             "cooltime": 300,
             "order": 0,
             "fatigue": 5
           },
           {
-            "name": "향상된 10단계 행운의 물약",
+            "name": "10단계 행운의 물약",
             "cooltime": 300,
-            "order": 1,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F6",
+        "order": 5,
+        "fatigue": 0,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F7",
+        "order": 6,
+        "fatigue": 0,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
+            "fatigue": 5
+          }
+        ]
+      },
+      {
+        "name": "F8",
+        "order": 7,
+        "fatigue": 0,
+        "keybinding": {
+          "itemInventory": 11,
+          "jump": 48,
+          "npcAction": 0,
+          "productionSkill": 73
+        },
+        "alchemy": [
+          {
+            "name": "10단계 민첩의 물약",
+            "cooltime": 300,
+            "order": 0,
             "fatigue": 5
           }
         ]
