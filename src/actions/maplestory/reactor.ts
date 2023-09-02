@@ -202,7 +202,7 @@ export class Reactor {
     await keyboard.pressKey(Key.Enter);
     await keyboard.releaseKey(Key.Enter);
 
-    await sleep(4000);
+    await sleep(5000);
 
     const region = await findImageWhile(MapleResource.제작완료_확인버튼);
 
