@@ -1,10 +1,9 @@
-import { screen, Region, randomPointIn } from '@nut-tree/nut-js';
+import { screen, Region, randomPointIn, sleep } from '@nut-tree/nut-js';
 import '@nut-tree/template-matcher';
 import { click } from '../modules/vkey';
 import { mouseMove } from '../modules/vkey2';
 import { logger } from './logger';
 import { loadImage } from './loadImage';
-import { sleep } from 'sleep';
 
 type Positon = { x: number; y: number };
 
