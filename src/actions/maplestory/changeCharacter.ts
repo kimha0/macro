@@ -14,6 +14,7 @@ import { resetMouseV2 } from '../../modules/resetMouse';
 import { logger } from '../../modules/logger';
 import { getConfig } from '../../modules/getConfig';
 import { sendWebhook } from '../../modules/discord-webhook';
+import os from 'os';
 
 export class ChangeCharacter {
   public config = getConfig();
@@ -32,8 +33,8 @@ export class ChangeCharacter {
         break;
       }
 
-      if (i < 20) {
-        sendWebhook('거탐 발생한걸로 추측됨');
+      if (i === 100) {
+        sendWebhook(`${os.userInfo().username} 거탐 발생한걸로 추측됨`);
       }
 
       ++i;
