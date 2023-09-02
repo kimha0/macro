@@ -1,4 +1,10 @@
-import { Key, Region, getActiveWindow, keyboard, mouse, sleep } from '@nut-tree/nut-js';
+import {
+  Key,
+  Region,
+  getActiveWindow,
+  keyboard,
+  sleep,
+} from '@nut-tree/nut-js';
 import { MapleResource } from '../../constants/maplestory';
 import { getImage, hasImage } from '../../modules/hasImage';
 import { Character } from '../../resource/maplestory/character';
@@ -7,6 +13,7 @@ import { Account } from '../../resource/maplestory/accounts';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { logger } from '../../modules/logger';
 import { getConfig } from '../../modules/getConfig';
+import { sendWebhook } from '../../modules/discord-webhook';
 
 export class ChangeCharacter {
   public config = getConfig();
@@ -17,12 +24,19 @@ export class ChangeCharacter {
   ) {}
 
   public async waitLoginScreen() {
-    while(true) {
+    let i = 0;
+    while (true) {
       const login = await getImage(MapleResource.로그인_이전으로);
 
       if (login != null) {
         break;
       }
+
+      if (i < 20) {
+        sendWebhook('거탐 발생한걸로 추측됨');
+      }
+
+      ++i;
     }
   }
 

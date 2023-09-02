@@ -18,7 +18,6 @@ import { Channel } from './channel';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { getConfig } from '../../modules/getConfig';
 import { findImageWhile } from '../../modules/findImageWhile';
-import { Snapshot } from '../../container/snapshot';
 
 export class Reactor {
   public channel: Channel;

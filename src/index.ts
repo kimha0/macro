@@ -34,7 +34,7 @@ async function main() {
   const reactor = new ReactorContainer(account, characters);
 
   const computerUsername = os.userInfo().username.substring(0, 3) + `***`;
-  await sendWebhook(`${computerUsername}: Start`);
+  await sendWebhook(`${computerUsername}: Start`, 'Logger');
 
   try {
     await asyncTask.build(() => reactor.tick(), Infinity).run();
