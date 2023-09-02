@@ -18,6 +18,7 @@ import { Channel } from './channel';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { getConfig } from '../../modules/getConfig';
 import { findImageWhile } from '../../modules/findImageWhile';
+import { Snapshot } from '../../container/snapshot';
 
 export class Reactor {
   public channel: Channel;
@@ -132,7 +133,11 @@ export class Reactor {
       2,
     );
 
-    await moveClick(region);
+    await mouse.move(straightTo(randomPointIn(region)));
+    await sleep(300);
+    await mouse.leftClick();
+    await sleep(500);
+
     await mouse.doubleClick(Button.LEFT);
     await sleep(1000);
 
@@ -197,7 +202,7 @@ export class Reactor {
     await keyboard.pressKey(Key.Enter);
     await keyboard.releaseKey(Key.Enter);
 
-    await sleep(4000);
+    await sleep(5000);
 
     const region = await findImageWhile(MapleResource.제작완료_확인버튼);
 
