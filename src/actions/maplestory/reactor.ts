@@ -14,6 +14,7 @@ import { moveClick } from '../../modules/moveClick';
 import { Channel } from './channel';
 import { resetMouseV2 } from '../../modules/resetMouse';
 import { getConfig } from '../../modules/getConfig';
+import { findImageWhile } from '../../modules/findImageWhile';
 
 export class Reactor {
   public channel: Channel;
@@ -57,7 +58,7 @@ export class Reactor {
     await keyboard.pressKey(this.character.keybinding.productionSkill);
     await keyboard.releaseKey(this.character.keybinding.productionSkill);
 
-    const 전문기술마을_가기_버튼 = await getImage(
+    const 전문기술마을_가기_버튼 = await findImageWhile(
       MapleResource.전문기술마을_가기_버튼,
     );
 
@@ -113,7 +114,9 @@ export class Reactor {
   }
 
   public async searchRecipe(txt: string) {
-    const recipeButton = await getImage(MapleResource.제작가능_레시피_버튼);
+    const recipeButton = await findImageWhile(
+      MapleResource.제작가능_레시피_버튼,
+    );
 
     if (recipeButton == null) {
       throw new Error('제작가능 레시피 버튼을 찾을 수 없습니다.');
@@ -180,8 +183,8 @@ export class Reactor {
 
     await moveClick(createButton);
 
-    const button = await hasImage(MapleResource.확인취소_버튼);
-    if (!button) {
+    const button = await findImageWhile(MapleResource.확인취소_버튼);
+    if (button == null) {
       throw new Error('제작 버튼을 찾을 수 없습니다.');
     }
 
@@ -190,9 +193,9 @@ export class Reactor {
 
     await sleep(4000);
 
-    const region = await getImage(MapleResource.제작완료_확인버튼);
+    const region = await findImageWhile(MapleResource.제작완료_확인버튼);
 
-    if (!region) {
+    if (region == null) {
       throw new Error('제작 완료 화면을 찾을 수 없습니다.');
     }
 

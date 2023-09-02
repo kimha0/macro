@@ -56,9 +56,6 @@ export class ReactorContainer {
       const character = await action.start(this.prevCharacter);
 
       if (character != null) {
-        logger(
-          `캐릭터 변경 대상: ${this.prevCharacter.name} -> ${character.name}`,
-        );
         this.prevCharacter = character;
       }
     }
