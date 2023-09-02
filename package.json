@@ -20,6 +20,7 @@
   },
   "scripts": {
     "start": "ts-node src/index.ts",
+    "test": "ts-node src/test.ts",
     "build": "tsc && pkg .",
     "lint": "eslint --fix"
   },

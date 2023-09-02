@@ -62,6 +62,45 @@ export class ReactorContainer {
 
     logger(`cycle end`);
   }
+
+  public async test() {
+    for await (const action of this.actions) {
+      this.needChangeCharacter =
+        this.prevCharacter.name !== action.character.name &&
+        action.canMakePotion();
+      const changeCharacter = new ChangeCharacter(
+        this.account,
+        action.character,
+      );
+
+      await changeCharacter.clearScreen();
+
+      if (this.needChangeCharacter) {
+        await keyboard.pressKey(Key.Escape);
+        await keyboard.releaseKey(Key.Escape);
+
+        await keyboard.pressKey(Key.Up);
+        await keyboard.releaseKey(Key.Up);
+
+        await keyboard.pressKey(Key.Enter);
+        await keyboard.releaseKey(Key.Enter);
+
+        await keyboard.pressKey(Key.Enter);
+        await keyboard.releaseKey(Key.Enter);
+
+        await changeCharacter.waitLoginScreen();
+        await changeCharacter.clickCharacter();
+        await changeCharacter.checkTwoFactor();
+        await changeCharacter.clearScreen();
+      }
+
+      const character = await action.test(this.prevCharacter);
+
+      if (character != null) {
+        this.prevCharacter = character;
+      }
+    }
+  }
 }
 
 class ReactorEvent {
@@ -134,6 +173,28 @@ class ReactorEvent {
 
     logger(`${waitSecond}초 기다림`);
     await sleep(waitSecond * 1000);
+
+    return this.character;
+  }
+
+  public async test(prevCharacter: Character) {
+    if (prevCharacter.name !== this.character.name) {
+      await this.action.goToTheAlchemyPlace();
+    }
+
+    await this.action.openAlchemy();
+    await this.action.activeAlchemy();
+
+    for await (const alchemy of this.character.alchemis) {
+      if (!this.canMakePotion()) {
+        break;
+      }
+
+      await this.action.searchRecipe(alchemy.name);
+    }
+
+    await keyboard.pressKey(Key.Escape);
+    await keyboard.releaseKey(Key.Escape);
 
     return this.character;
   }
