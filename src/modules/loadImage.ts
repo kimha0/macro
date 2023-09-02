@@ -1,9 +1,14 @@
 import { loadImage as nutLoadImage, Image } from '@nut-tree/nut-js';
-import { logger } from './logger';
 
 const cache: Record<string, Image> = {};
 
 export async function loadImage(...args: Parameters<typeof nutLoadImage>) {
+  const image = await nutLoadImage(...args);
+
+  return image;
+}
+
+export async function loadImage2(...args: Parameters<typeof nutLoadImage>) {
   const cacheKey = args[0];
 
   if (cache[cacheKey] != null) {
