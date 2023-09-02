@@ -121,7 +121,6 @@ class ReactorEvent {
 
       this.fatigue += alchemy.fatigue;
 
-      sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
       logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
 
       if (waitSecond < alchemy.cooltime) {
@@ -131,6 +130,7 @@ class ReactorEvent {
 
     await keyboard.pressKey(Key.Escape);
     await keyboard.releaseKey(Key.Escape);
+    sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
 
     logger(`${waitSecond}초 기다림`);
     await sleep(waitSecond * 1000);
