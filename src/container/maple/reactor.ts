@@ -126,6 +126,8 @@ class ReactorEvent {
         } catch {
           i++;
         }
+
+        throw new Error('해당 레시피를 만들 수 없습니다.');
       }
 
       this.fatigue += alchemy.fatigue;
