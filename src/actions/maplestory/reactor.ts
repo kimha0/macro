@@ -130,7 +130,7 @@ export class Reactor {
     );
 
     await moveClick(region);
-    await sleep(500);
+    await sleep(1000);
 
     await keyboard.pressKey(Key.Home);
     await keyboard.releaseKey(Key.Home);

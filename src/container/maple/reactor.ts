@@ -116,8 +116,17 @@ class ReactorEvent {
         break;
       }
 
-      await this.action.searchRecipe(alchemy.name);
-      await this.action.create();
+      let i = 0;
+
+      while (i < 5) {
+        try {
+          await this.action.searchRecipe(alchemy.name);
+          await this.action.create();
+          break;
+        } catch {
+          i++;
+        }
+      }
 
       this.fatigue += alchemy.fatigue;
 
