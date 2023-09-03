@@ -171,7 +171,7 @@ class ReactorEvent {
     await keyboard.releaseKey(Key.Escape);
     sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
 
-    logger(`${waitSecond}초 기다림`);
+    logger(`${this.character.name}: ${waitSecond}초 기다림`);
     await sleep(waitSecond * 1000);
 
     return this.character;
