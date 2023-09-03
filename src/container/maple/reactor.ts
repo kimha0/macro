@@ -55,6 +55,8 @@ export class ReactorContainer {
 
       const character = await action.start(this.prevCharacter);
 
+      await changeCharacter.clearScreen();
+
       if (character != null) {
         this.prevCharacter = character;
       }
