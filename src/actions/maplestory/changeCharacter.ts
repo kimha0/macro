@@ -51,8 +51,9 @@ export class ChangeCharacter {
 
     for (let i = 0; i < this.character.order; ++i) {
       await keyboard.pressKey(Key.Right);
+      await sleep(80);
       await keyboard.releaseKey(Key.Right);
-      await sleep(700);
+      await sleep(80);
     }
 
     // const window = await getActiveWindow();
