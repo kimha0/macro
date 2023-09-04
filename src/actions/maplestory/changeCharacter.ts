@@ -144,6 +144,8 @@ export class ChangeCharacter {
           break;
         }
 
+        await sleep(1000);
+
         await keyboard.pressKey(Key.Escape);
         await keyboard.releaseKey(Key.Escape);
       }
