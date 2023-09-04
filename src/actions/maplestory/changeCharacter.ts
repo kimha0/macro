@@ -15,7 +15,6 @@ import { logger } from '../../modules/logger';
 import { getConfig } from '../../modules/getConfig';
 import { sendWebhook } from '../../modules/discord-webhook';
 import os from 'os';
-import { findImageWhile } from '../../modules/findImageWhile';
 
 export class ChangeCharacter {
   public config = getConfig();
@@ -134,11 +133,28 @@ export class ChangeCharacter {
   }
 
   public async waitInGameScreen() {
-    try {
-      await findImageWhile(MapleResource.설정_액티브상태, 100);
-    } catch {
+    return new Promise(async (resolve) => {
+      let i = 0;
+      while (i < 50) {
+        const 설정_액티브 = await hasImage(MapleResource.설정_액티브상태, 1000);
+
+        if (설정_액티브) {
+          await keyboard.pressKey(Key.Escape);
+          await keyboard.releaseKey(Key.Escape);
+          resolve(true);
+
+          break;
+        }
+
+        await sleep(1000);
+
+        await keyboard.pressKey(Key.Escape);
+        await keyboard.releaseKey(Key.Escape);
+        ++i;
+      }
+
       sendWebhook('거탐 발생한 것 같음');
-    }
+    });
   }
 
   public async clearScreen() {
