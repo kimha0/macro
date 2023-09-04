@@ -143,7 +143,7 @@ export class ChangeCharacter {
           await keyboard.releaseKey(Key.Escape);
           resolve(true);
 
-          break;
+          return;
         }
 
         await sleep(1000);
