@@ -33,7 +33,7 @@ export class ChangeCharacter {
         break;
       }
 
-      if (i === 5) {
+      if (i === 25) {
         sendWebhook(`${os.userInfo().username} 거탐 발생한걸로 추측됨`);
       }
 
@@ -42,9 +42,11 @@ export class ChangeCharacter {
   }
 
   public async clickCharacter() {
-    await keyboard.pressKey(Key.Left);
-    await sleep(3000);
-    await keyboard.releaseKey(Key.Left);
+    for (let i = 0; i < 50; ++i) {
+      await keyboard.pressKey(Key.Left);
+      await keyboard.releaseKey(Key.Left);
+      await sleep(50);
+    }
 
     for (let i = 0; i < this.character.order; ++i) {
       await keyboard.pressKey(Key.Right);
