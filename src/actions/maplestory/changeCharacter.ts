@@ -15,6 +15,7 @@ import { logger } from '../../modules/logger';
 import { getConfig } from '../../modules/getConfig';
 import { sendWebhook } from '../../modules/discord-webhook';
 import os from 'os';
+import { findImageWhile } from '../../modules/findImageWhile';
 
 export class ChangeCharacter {
   public config = getConfig();
@@ -128,6 +129,14 @@ export class ChangeCharacter {
 
     if (!접속완료여부) {
       throw new Error('로그인 실패');
+    }
+  }
+
+  public async waitInGameScreen() {
+    try {
+      await findImageWhile(MapleResource.설정_액티브상태, 100);
+    } catch {
+      await sendWebhook('거탐 발생한 것 같음');
     }
   }
 
