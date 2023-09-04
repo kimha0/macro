@@ -136,7 +136,7 @@ export class ChangeCharacter {
     try {
       await findImageWhile(MapleResource.설정_액티브상태, 100);
     } catch {
-      await sendWebhook('거탐 발생한 것 같음');
+      sendWebhook('거탐 발생한 것 같음');
     }
   }
 
