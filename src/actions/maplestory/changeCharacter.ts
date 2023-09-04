@@ -33,7 +33,7 @@ export class ChangeCharacter {
         break;
       }
 
-      if (i === 100) {
+      if (i === 5) {
         sendWebhook(`${os.userInfo().username} 거탐 발생한걸로 추측됨`);
       }
 
@@ -42,23 +42,33 @@ export class ChangeCharacter {
   }
 
   public async clickCharacter() {
-    const window = await getActiveWindow();
-    const region = await window.region;
+    await keyboard.pressKey(Key.Left);
+    await sleep(3000);
+    await keyboard.releaseKey(Key.Left);
 
-    const xOrder = this.character.order % 6;
-    const xPos = region.left + 121 + xOrder * 125;
+    for (let i = 0; i < this.character.order; ++i) {
+      await keyboard.pressKey(Key.Right);
+      await keyboard.releaseKey(Key.Right);
+      await sleep(700);
+    }
 
-    const yOrder = Math.floor(this.character.order / 6);
-    const yPos = region.top + 315 + yOrder * 220;
+    // const window = await getActiveWindow();
+    // const region = await window.region;
 
-    await sleep(2000);
-    await moveClick(new Region(xPos, yPos, 35, 60));
+    // const xOrder = this.character.order % 6;
+    // const xPos = region.left + 121 + xOrder * 125;
 
-    await sleep(2000);
+    // const yOrder = Math.floor(this.character.order / 6);
+    // const yPos = region.top + 315 + yOrder * 220;
+
+    // await sleep(2000);
+    // await moveClick(new Region(xPos, yPos, 35, 60));
+
+    await sleep(1000);
     await keyboard.pressKey(Key.Enter);
     await keyboard.releaseKey(Key.Enter);
 
-    await resetMouseV2(window);
+    // await resetMouseV2(window);
   }
 
   public async checkTwoFactor() {
