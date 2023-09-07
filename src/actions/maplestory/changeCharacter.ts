@@ -135,7 +135,7 @@ export class ChangeCharacter {
   public async waitInGameScreen() {
     return new Promise(async (resolve) => {
       let i = 0;
-      while (i < 50) {
+      while (i < 10) {
         const 설정_액티브 = await hasImage(MapleResource.설정_액티브상태, 1000);
 
         if (설정_액티브) {
