@@ -111,32 +111,34 @@ class ReactorEvent {
       await this.action.goToTheAlchemyPlace();
     }
 
-    await this.action.openAlchemy();
-    await this.action.activeAlchemy();
+    while (this.canMakePotion()) {
+      await this.action.openAlchemy();
+      await this.action.activeAlchemy();
 
-    for await (const alchemy of this.character.alchemis) {
-      if (!this.canMakePotion()) {
-        break;
+      for await (const alchemy of this.character.alchemis) {
+        if (!this.canMakePotion()) {
+          break;
+        }
+
+        await this.action.searchRecipe(alchemy.name);
+        await this.action.create();
+
+        this.fatigue += alchemy.fatigue;
+
+        logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
+
+        if (waitSecond < alchemy.cooltime) {
+          waitSecond = alchemy.cooltime;
+        }
       }
 
-      await this.action.searchRecipe(alchemy.name);
-      await this.action.create();
+      await keyboard.pressKey(Key.Escape);
+      await keyboard.releaseKey(Key.Escape);
+      sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
 
-      this.fatigue += alchemy.fatigue;
-
-      logger(`${this.character.name} - ${alchemy.name} 제작 완료`);
-
-      if (waitSecond < alchemy.cooltime) {
-        waitSecond = alchemy.cooltime;
-      }
+      logger(`${this.character.name}: ${waitSecond}초 기다림`);
+      await sleep(waitSecond * 1000);
     }
-
-    await keyboard.pressKey(Key.Escape);
-    await keyboard.releaseKey(Key.Escape);
-    sendFatigueWebhook(`${this.character.name}: 피로도(${this.fatigue})`);
-
-    logger(`${this.character.name}: ${waitSecond}초 기다림`);
-    await sleep(waitSecond * 1000);
 
     return this.character;
   }
