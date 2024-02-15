@@ -56,5 +56,17 @@ class RainCasting extends Buff {
   }
 }
 
+class PetFood extends Buff {
+  static BuffTime = 420;
+  constructor() {
+    super(Key.Insert, PetFood.BuffTime, 0, 350);
+  }
+
+  public async onFinish(): Promise<void> {
+    await sleep(500);
+  }
+}
+
 export const songOfRichYearSingleton = new SongOfRichYear();
 export const rainCastingSingleton = new RainCasting();
+export const petFoodSingleton = new PetFood();
